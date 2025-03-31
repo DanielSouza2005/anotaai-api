@@ -2,7 +2,6 @@ package anota.ai.api.empresa;
 
 import anota.ai.api.endereco.Endereco;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.*;
 
 import java.util.Date;

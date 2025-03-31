@@ -17,26 +17,26 @@ public class EmpresaController {
     private EmpresaRepository repository;
 
     @GetMapping
-    public Page<DadosListagemEmpresa> listar(@PageableDefault(size = 10, sort={"razao", "fantasia", "cnpj"}) Pageable paginacao){
+    public Page<DadosListagemEmpresa> listar(@PageableDefault(size = 10, sort = {"razao", "fantasia", "cnpj"}) Pageable paginacao) {
         return repository.findAllByAtivo(1, paginacao).map(DadosListagemEmpresa::new);
     }
 
     @PostMapping
     @Transactional
-    public void cadastrar(@RequestBody @Valid DadosCadastroEmpresa dados){
+    public void cadastrar(@RequestBody @Valid DadosCadastroEmpresa dados) {
         repository.save(new Empresa(dados));
     }
 
     @PutMapping
     @Transactional
-    public void atualizar(@RequestBody @Valid DadosAtualizacaoEmpresa dados){
+    public void atualizar(@RequestBody @Valid DadosAtualizacaoEmpresa dados) {
         var empresa = repository.getReferenceById(dados.cod_empresa());
         empresa.atualizarDados(dados);
     }
 
     @DeleteMapping("/{cod_empresa}")
     @Transactional
-    public void excluir(@PathVariable Long cod_empresa){
+    public void excluir(@PathVariable Long cod_empresa) {
         var empresa = repository.getReferenceById(cod_empresa);
         empresa.excluir();
     }

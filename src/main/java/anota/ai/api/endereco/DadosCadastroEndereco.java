@@ -9,5 +9,5 @@ public record DadosCadastroEndereco(
         String numero,
         String complemento,
         String cep
-        ) {
+) {
 }
