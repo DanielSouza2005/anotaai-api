@@ -18,7 +18,7 @@ public class EmpresaController {
 
     @GetMapping
     public Page<DadosListagemEmpresa> listar(@PageableDefault(size = 10, sort = {"razao", "fantasia", "cnpj"}) Pageable paginacao) {
-        return repository.findAllByAtivo(1, paginacao).map(DadosListagemEmpresa::new);
+        return repository.findAll(paginacao).map(DadosListagemEmpresa::new);
     }
 
     @PostMapping

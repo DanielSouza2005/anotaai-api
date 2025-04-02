@@ -18,7 +18,7 @@ public class UsuarioController {
 
     @GetMapping
     public Page<DadosListagemUsuario> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
-        return repository.findAllByAtivo(1, paginacao).map(DadosListagemUsuario::new);
+        return repository.findAll(paginacao).map(DadosListagemUsuario::new);
     }
 
     @PostMapping

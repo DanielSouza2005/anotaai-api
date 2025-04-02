@@ -23,13 +23,13 @@ public record DadosListagemEmpresa(
                 empresa.getIe(),
                 new DadosCadastroEndereco(
                         empresa.getEndereco().getPais(),
-                        empresa.getEndereco().getBairro(),
-                        empresa.getEndereco().getCep(),
-                        empresa.getEndereco().getCidade(),
                         empresa.getEndereco().getUf(),
+                        empresa.getEndereco().getCidade(),
+                        empresa.getEndereco().getBairro(),
+                        empresa.getEndereco().getRua(),
                         empresa.getEndereco().getNumero(),
                         empresa.getEndereco().getComplemento(),
-                        empresa.getEndereco().getPais()
+                        empresa.getEndereco().getCep()
                 ),
                 empresa.getDt_inclusao(),
                 empresa.getDt_alteracao());
