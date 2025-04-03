@@ -68,6 +68,59 @@ public class Contato {
         this.obs = dados.obs();
     }
 
+    public void atualizarDados(DadosAtualizacaoContato dados) {
+        this.dt_alteracao = new Date();
+
+        if (dados.nome() != null) {
+            this.nome = dados.nome();
+        }
+
+        if (dados.cod_empresa() != null) {
+            this.cod_empresa = new Empresa();
+            this.cod_empresa.setCod_empresa(dados.cod_empresa());
+        }
+
+        if (dados.cpf() != null) {
+            this.cpf = dados.cpf();
+        }
+
+        if (dados.celular() != null) {
+            this.celular = dados.celular();
+        }
+
+        if (dados.telefone() != null) {
+            this.telefone = dados.telefone();
+        }
+
+        if (dados.telefone2() != null) {
+            this.telefone2 = dados.telefone2();
+        }
+
+        if (dados.email_pessoal() != null) {
+            this.email_pessoal = dados.email_pessoal();
+        }
+
+        if (dados.email_corp() != null) {
+            this.email_corp = dados.email_corp();
+        }
+
+        if (dados.endereco() != null) {
+            this.endereco.atualizarInformacoes(dados.endereco());
+        }
+
+        if (dados.cargo() != null) {
+            this.cargo = dados.cargo();
+        }
+
+        if (dados.departamento() != null) {
+            this.departamento = dados.departamento();
+        }
+
+        if (dados.obs() != null) {
+            this.obs = dados.obs();
+        }
+    }
+
     public void excluir() {
         this.ativo = 0;
     }

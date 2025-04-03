@@ -1,0 +1,1 @@
+ALTER TABLE "contato" ADD CONSTRAINT "contato_fk2" FOREIGN KEY ("cod_empresa") REFERENCES "empresa"("cod_empresa");
