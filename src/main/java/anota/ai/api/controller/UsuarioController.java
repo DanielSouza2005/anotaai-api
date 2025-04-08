@@ -1,7 +1,5 @@
 package anota.ai.api.controller;
 
-import anota.ai.api.empresa.DadosListagemEmpresa;
-import anota.ai.api.empresa.Empresa;
 import anota.ai.api.usuario.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -11,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Optional;
 
@@ -24,42 +23,42 @@ public class UsuarioController {
     @GetMapping
     public ResponseEntity<Page<DadosListagemUsuario>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
         var usuarios = repository.findAll(paginacao).map(DadosListagemUsuario::new);
+
         return ResponseEntity.ok(usuarios);
+    }
+
+    @GetMapping("/{cod_usuario}")
+    public ResponseEntity<DadosListagemUsuario> listarPorId(@PathVariable Long cod_usuario) {
+        var usuario = repository.getReferenceById(cod_usuario);
+
+        return ResponseEntity.ok(new DadosListagemUsuario(usuario));
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<DadosListagemUsuario> cadastrar(@RequestBody @Valid DadosCadastroUsuario dados) {
+    public ResponseEntity<DadosListagemUsuario> cadastrar(@RequestBody @Valid DadosCadastroUsuario dados,
+                                                          UriComponentsBuilder uriBuilder) {
         var usuario = repository.save(new Usuario(dados));
-        return ResponseEntity.status(201).body(new DadosListagemUsuario(usuario));
+        var uri = uriBuilder.path("/usuario/{cod_usuario}").buildAndExpand(usuario.getCod_usuario()).toUri();
+
+        return ResponseEntity.created(uri).body(new DadosListagemUsuario(usuario));
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity<?> atualizar(@RequestBody @Valid DadosAtualizacaoUsuario dados) {
-        Optional<Usuario> usuarioOpt = repository.findById(dados.cod_usuario());
+    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoUsuario dados) {
+        var usuario = repository.getReferenceById(dados.cod_usuario());
+        usuario.atualizarDados(dados);
 
-        if (usuarioOpt.isPresent()) {
-            var usuario = usuarioOpt.get();
-            usuario.atualizarDados(dados);
-            return ResponseEntity.ok(new DadosListagemUsuario(usuario));
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(new DadosListagemUsuario(usuario));
     }
 
     @DeleteMapping("/{cod_usuario}")
     @Transactional
-    public ResponseEntity<Void> excluir(@PathVariable Long cod_usuario) {
-        Optional<Usuario> usuarioOpt = repository.findById(cod_usuario);
+    public ResponseEntity excluir(@PathVariable Long cod_usuario) {
+        var usuario = repository.getReferenceById(cod_usuario);
+        usuario.excluir();
 
-        if (usuarioOpt.isPresent()) {
-            usuarioOpt.get().excluir();
-            return ResponseEntity.noContent().build();
-        }
-        else {
-            return ResponseEntity.noContent().build();
-        }
+        return ResponseEntity.noContent().build();
     }
 }

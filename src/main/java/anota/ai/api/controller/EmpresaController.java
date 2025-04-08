@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Optional;
 
@@ -22,42 +23,42 @@ public class EmpresaController {
     @GetMapping
     public ResponseEntity<Page<DadosListagemEmpresa>> listar(@PageableDefault(size = 10, sort = {"razao", "fantasia", "cnpj"}) Pageable paginacao) {
         var empresas = repository.findAll(paginacao).map(DadosListagemEmpresa::new);
+
         return ResponseEntity.ok(empresas);
+    }
+
+    @GetMapping("/{cod_empresa}")
+    public ResponseEntity<DadosListagemEmpresa> listarPorId(@PathVariable Long cod_empresa) {
+        var empresa = repository.getReferenceById(cod_empresa);
+
+        return ResponseEntity.ok(new DadosListagemEmpresa(empresa));
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<DadosListagemEmpresa> cadastrar(@RequestBody @Valid DadosCadastroEmpresa dados) {
+    public ResponseEntity<DadosListagemEmpresa> cadastrar(@RequestBody @Valid DadosCadastroEmpresa dados,
+                                                          UriComponentsBuilder uriBuilder) {
         var empresa = repository.save(new Empresa(dados));
-        return ResponseEntity.status(201).body(new DadosListagemEmpresa(empresa));
+        var uri = uriBuilder.path("/empresa/{cod_empresa}").buildAndExpand(empresa.getCod_empresa()).toUri();
+
+        return ResponseEntity.created(uri).body(new DadosListagemEmpresa(empresa));
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity<?> atualizar(@RequestBody @Valid DadosAtualizacaoEmpresa dados) {
-        Optional<Empresa> empresaOpt = repository.findById(dados.cod_empresa());
+    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoEmpresa dados) {
+        var empresa = repository.getReferenceById(dados.cod_empresa());
+        empresa.atualizarDados(dados);
 
-        if (empresaOpt.isPresent()) {
-            var empresa = empresaOpt.get();
-            empresa.atualizarDados(dados);
-            return ResponseEntity.ok(new DadosListagemEmpresa(empresa));
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(new DadosListagemEmpresa(empresa));
     }
 
     @DeleteMapping("/{cod_empresa}")
     @Transactional
-    public ResponseEntity<Void> excluir(@PathVariable Long cod_empresa) {
-        Optional<Empresa> empresaOpt = repository.findById(cod_empresa);
+    public ResponseEntity excluir(@PathVariable Long cod_empresa) {
+        var empresa = repository.getReferenceById(cod_empresa);
+        empresa.excluir();
 
-        if (empresaOpt.isPresent()) {
-            empresaOpt.get().excluir();
-            return ResponseEntity.noContent().build();
-        }
-        else {
-            return ResponseEntity.noContent().build();
-        }
+        return ResponseEntity.noContent().build();
     }
 }
