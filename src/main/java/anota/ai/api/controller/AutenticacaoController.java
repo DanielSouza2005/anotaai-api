@@ -1,6 +1,9 @@
 package anota.ai.api.controller;
 
 import anota.ai.api.domain.usuario.DadosAutenticacao;
+import anota.ai.api.domain.usuario.Usuario;
+import anota.ai.api.infra.security.DadosTokenJWT;
+import anota.ai.api.infra.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +21,15 @@ public class AutenticacaoController {
     @Autowired
     private AuthenticationManager manager;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping
     public ResponseEntity efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
         var token = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
         var authentication = manager.authenticate(token);
+        var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 }
