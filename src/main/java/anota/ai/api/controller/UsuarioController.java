@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -17,6 +18,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioRepository repository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping
     public ResponseEntity<Page<DadosListagemUsuario>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
@@ -36,7 +40,7 @@ public class UsuarioController {
     @Transactional
     public ResponseEntity<DadosListagemUsuario> cadastrar(@RequestBody @Valid DadosCadastroUsuario dados,
                                                           UriComponentsBuilder uriBuilder) {
-        var usuario = repository.save(new Usuario(dados));
+        var usuario = repository.save(new Usuario(dados, passwordEncoder));
         var uri = uriBuilder.path("/usuario/{cod_usuario}").buildAndExpand(usuario.getCod_usuario()).toUri();
 
         return ResponseEntity.created(uri).body(new DadosListagemUsuario(usuario));
@@ -46,7 +50,7 @@ public class UsuarioController {
     @Transactional
     public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoUsuario dados) {
         var usuario = repository.getReferenceById(dados.cod_usuario());
-        usuario.atualizarDados(dados);
+        usuario.atualizarDados(dados, passwordEncoder);
 
         return ResponseEntity.ok(new DadosListagemUsuario(usuario));
     }

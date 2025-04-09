@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
 import java.util.Date;
@@ -31,9 +32,9 @@ public class Usuario implements UserDetails {
     private Date dt_inclusao;
     private Date dt_alteracao;
 
-    public Usuario(DadosCadastroUsuario dados) {
+    public Usuario(DadosCadastroUsuario dados, BCryptPasswordEncoder encoder) {
         this.nome = dados.nome();
-        this.senha = dados.senha();
+        this.senha = encoder.encode(dados.senha());
         this.email = dados.email();
 
         this.ativo = 1;
@@ -41,7 +42,7 @@ public class Usuario implements UserDetails {
         this.dt_alteracao = new Date();
     }
 
-    public void atualizarDados(DadosAtualizacaoUsuario dados) {
+    public void atualizarDados(DadosAtualizacaoUsuario dados, BCryptPasswordEncoder encoder) {
         this.dt_alteracao = new Date();
 
         if (dados.nome() != null) {
@@ -49,7 +50,7 @@ public class Usuario implements UserDetails {
         }
 
         if (dados.senha() != null) {
-            this.senha = dados.senha();
+            this.senha = encoder.encode(dados.senha());
         }
 
         if (dados.email() != null) {
