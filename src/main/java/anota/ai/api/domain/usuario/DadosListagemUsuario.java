@@ -1,4 +1,4 @@
-package anota.ai.api.usuario;
+package anota.ai.api.domain.usuario;
 
 import java.util.Date;
 

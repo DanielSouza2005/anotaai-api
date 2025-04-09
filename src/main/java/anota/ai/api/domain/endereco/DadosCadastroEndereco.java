@@ -1,4 +1,4 @@
-package anota.ai.api.endereco;
+package anota.ai.api.domain.endereco;
 
 public record DadosCadastroEndereco(
         String pais,

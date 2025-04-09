@@ -1,6 +1,6 @@
-package anota.ai.api.empresa;
+package anota.ai.api.domain.empresa;
 
-import anota.ai.api.endereco.DadosCadastroEndereco;
+import anota.ai.api.domain.endereco.DadosCadastroEndereco;
 
 import java.util.Date;
 

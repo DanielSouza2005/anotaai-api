@@ -1,4 +1,4 @@
-package anota.ai.api.empresa;
+package anota.ai.api.domain.empresa;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

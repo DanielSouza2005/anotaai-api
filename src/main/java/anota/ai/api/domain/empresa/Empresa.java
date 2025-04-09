@@ -1,6 +1,6 @@
-package anota.ai.api.empresa;
+package anota.ai.api.domain.empresa;
 
-import anota.ai.api.endereco.Endereco;
+import anota.ai.api.domain.endereco.Endereco;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,4 +1,4 @@
-package anota.ai.api.contato;
+package anota.ai.api.domain.contato;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
