@@ -7,7 +7,7 @@
   <a href="https://skillicons.dev" rel="nofollow"> 
   <img src="https://skillicons.dev/icons?i=java,spring,postgres,maven" style="max-width: 100%;"> </a> <br>
 </div> 
-<h2>🛠️ Project Features </h2>
+<h2>🛠️ Funcionalidades do Projeto </h2>
 
 📇 CRUD de Contatos: Endpoints completos para criar, listar, atualizar e excluir contatos.
 
@@ -24,3 +24,7 @@
 🔐 Criptografia: Senhas criptografadas com segurança utilizando BCrypt.
 
 🔑 Autenticação JWT: Autenticação segura baseada em token JWT.
+
+📚 Documentação com Spring Docs: Interface automática e interativa para explorar os endpoints da API.
+
+🧪 Testes com JUnit: Testes automatizados garantindo a qualidade e confiabilidade da aplicação.
