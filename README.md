@@ -9,22 +9,22 @@
 </div> 
 <h2>🛠️ Funcionalidades do Projeto </h2>
 
-📇 CRUD de Contatos: Endpoints completos para criar, listar, atualizar e excluir contatos.
+- 📇 `CRUD de Contatos`: Endpoints completos para criar, listar, atualizar e excluir contatos.
 
-🏢 CRUD de Empresas: Cadastro e gerenciamento de empresas associadas aos contatos.
+- 🏢 `CRUD de Empresas`: Cadastro e gerenciamento de empresas associadas aos contatos.
 
-👤 CRUD de Usuários: Gestão dos usuários do sistema com autenticação segura.
+- 👤 `CRUD de Usuários`: Gestão dos usuários do sistema com autenticação segura.
 
-📄 Paginação e Ordenação: Listagens otimizadas com suporte a paginação e ordenação dinâmica.
+- 📄 `Paginação e Ordenação`: Listagens otimizadas com suporte a paginação e ordenação dinâmica.
 
-✅ Validações: Validação de dados com Bean Validation para garantir a integridade das requisições.
+- ✅ `Validações`: Validação de dados com Bean Validation para garantir a integridade das requisições.
 
-⚠️ Tratamento de Erros: Respostas padronizadas com mensagens claras para erros comuns.
+- ⚠️ `Tratamento de Erros`: Respostas padronizadas com mensagens claras para erros comuns.
 
-🔐 Criptografia: Senhas criptografadas com segurança utilizando BCrypt.
+- 🔐 `Criptografia`: Senhas criptografadas com segurança utilizando BCrypt.
 
-🔑 Autenticação JWT: Autenticação segura baseada em token JWT.
+- 🔑 `Autenticação JWT`: Autenticação segura baseada em token JWT.
 
-📚 Documentação com Spring Docs: Interface automática e interativa para explorar os endpoints da API.
+- 📚 `Documentação com Spring Docs`: Interface automática e interativa para explorar os endpoints da API.
 
-🧪 Testes com JUnit: Testes automatizados garantindo a qualidade e confiabilidade da aplicação.
+- 🧪 `Testes com JUnit`: Testes automatizados garantindo a qualidade e confiabilidade da aplicação.
