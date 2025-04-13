@@ -1,4 +1,4 @@
-<h1>📖 AnotaAí API</h1> 
+<h1>🪪 AnotaAí API</h1> 
 <img loading="lazy" src="https://img.shields.io/github/stars/DanielSouza2005/anotaai-api?style=social"/> 
 <h2>💡 Sobre </h2> 
 <p> RESTful API desenvolvida para o sistema de anotações e gerenciamento de contatos e empresas, com autenticação e boas práticas de desenvolvimento backend em Java. </p> 
