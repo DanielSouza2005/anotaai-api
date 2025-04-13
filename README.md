@@ -27,4 +27,15 @@
 
 - 📚 `Documentação com Spring Docs`: Interface automática e interativa para explorar os endpoints da API.
 
-- 🧪 `Testes com JUnit`: Testes automatizados garantindo a qualidade e confiabilidade da aplicação.
+<h2>🛠️🧪 Tecnologias utilizadas nos testes </h2>
+
+- ⚙️ `Spring Boot Test` – Estrutura principal de testes do Spring.
+
+- 🌐 `MockMvc` – Simula requisições HTTP para os controllers.
+
+- 🎭 `Mockito (@MockitoBean)` – Mocka dependências como o UsuarioRepository e BCryptPasswordEncoder.
+
+- 📦 `JacksonTester` – Serializa e desserializa objetos JSON nos testes.
+
+- 🧪 `JUnit 5` – Framework de testes usado com anotações como @Test e @DisplayName.
+
