@@ -5,7 +5,7 @@
 <h2>🖥️ Tecnologias usadas </h2>
 <div align="left" dir="auto"> 
   <a href="https://skillicons.dev" rel="nofollow"> 
-  <img src="https://skillicons.dev/icons?i=java,spring,hibernate,postgres,maven" style="max-width: 100%;"> </a> <br>
+  <img src="https://skillicons.dev/icons?i=java,spring,maven,hibernate,postgres" style="max-width: 100%;"> </a> <br>
 </div> 
 <h2>🛠️ Funcionalidades do Projeto </h2>
 
