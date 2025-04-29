@@ -22,7 +22,7 @@ public class ContatoController {
 
     @GetMapping
     public ResponseEntity<Page<DadosListagemContato>> listar(@PageableDefault(size = 10, sort = {"nome", "cpf"}) Pageable paginacao) {
-        Page<DadosListagemContato> contatos = repository.findAll(paginacao).map(DadosListagemContato::new);
+        Page<DadosListagemContato> contatos = repository.findAllByAtivo(1, paginacao).map(DadosListagemContato::new);
 
         return ResponseEntity.ok(contatos);
     }

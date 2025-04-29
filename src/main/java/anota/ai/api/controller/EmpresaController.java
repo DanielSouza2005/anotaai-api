@@ -22,7 +22,7 @@ public class EmpresaController {
 
     @GetMapping
     public ResponseEntity<Page<DadosListagemEmpresa>> listar(@PageableDefault(size = 10, sort = {"razao", "fantasia", "cnpj"}) Pageable paginacao) {
-        var empresas = repository.findAll(paginacao).map(DadosListagemEmpresa::new);
+        var empresas = repository.findAllByAtivo(1, paginacao).map(DadosListagemEmpresa::new);
 
         return ResponseEntity.ok(empresas);
     }
