@@ -31,16 +31,17 @@ public record DadosListagemContato(
                 contato.getTelefone2(),
                 contato.getEmail_pessoal(),
                 contato.getEmail_corp(),
-                new DadosCadastroEndereco(
-                        contato.getEndereco().getPais(),
-                        contato.getEndereco().getUf(),
-                        contato.getEndereco().getCidade(),
-                        contato.getEndereco().getBairro(),
-                        contato.getEndereco().getRua(),
-                        contato.getEndereco().getNumero(),
-                        contato.getEndereco().getComplemento(),
-                        contato.getEndereco().getCep()
-                ),
+                contato.getEndereco() != null ?
+                        new DadosCadastroEndereco(
+                                contato.getEndereco().getPais(),
+                                contato.getEndereco().getUf(),
+                                contato.getEndereco().getCidade(),
+                                contato.getEndereco().getBairro(),
+                                contato.getEndereco().getRua(),
+                                contato.getEndereco().getNumero(),
+                                contato.getEndereco().getComplemento(),
+                                contato.getEndereco().getCep()
+                        ) : null,
                 contato.getDt_inclusao(),
                 contato.getDt_alteracao(),
                 contato.getCargo(),

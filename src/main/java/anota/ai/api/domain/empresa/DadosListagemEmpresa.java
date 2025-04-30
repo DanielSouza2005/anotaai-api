@@ -21,16 +21,17 @@ public record DadosListagemEmpresa(
                 empresa.getFantasia(),
                 empresa.getCnpj(),
                 empresa.getIe(),
-                new DadosCadastroEndereco(
-                        empresa.getEndereco().getPais(),
-                        empresa.getEndereco().getUf(),
-                        empresa.getEndereco().getCidade(),
-                        empresa.getEndereco().getBairro(),
-                        empresa.getEndereco().getRua(),
-                        empresa.getEndereco().getNumero(),
-                        empresa.getEndereco().getComplemento(),
-                        empresa.getEndereco().getCep()
-                ),
+                empresa.getEndereco() != null ?
+                        new DadosCadastroEndereco(
+                                empresa.getEndereco().getPais(),
+                                empresa.getEndereco().getUf(),
+                                empresa.getEndereco().getCidade(),
+                                empresa.getEndereco().getBairro(),
+                                empresa.getEndereco().getRua(),
+                                empresa.getEndereco().getNumero(),
+                                empresa.getEndereco().getComplemento(),
+                                empresa.getEndereco().getCep()
+                        ) : null,
                 empresa.getDt_inclusao(),
                 empresa.getDt_alteracao());
     }
