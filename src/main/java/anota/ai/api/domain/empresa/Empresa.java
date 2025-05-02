@@ -60,7 +60,9 @@ public class Empresa {
             this.ie = dados.ie();
         }
 
-        if (dados.endereco() != null) {
+        if (this.endereco == null) {
+            this.endereco = new Endereco(dados.endereco());
+        } else {
             this.endereco.atualizarInformacoes(dados.endereco());
         }
     }
