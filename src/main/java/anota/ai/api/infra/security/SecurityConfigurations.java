@@ -54,7 +54,7 @@ public class SecurityConfigurations {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000", "https://anotaai-front.vercel.app")
+                        .allowedOrigins("http://localhost:3000", "https://anotaai-front.vercel.app", "https://anotaai-front-lkviiwk1m-daniels-projects-6204742b.vercel.app")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
