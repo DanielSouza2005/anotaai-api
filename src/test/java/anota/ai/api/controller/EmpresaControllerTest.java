@@ -21,6 +21,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -63,7 +64,7 @@ class EmpresaControllerTest {
     @Test
     @DisplayName("Deveria devolver 400 ao tentar cadastrar com dados inválidos")
     @WithMockUser
-    void cadastrarEmpresaCenario1() throws Exception {
+    void cadastrarEmpresaCenarioDadosInvalidos() throws Exception {
         var response = mvc.perform(post("/empresa")).andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
@@ -71,7 +72,7 @@ class EmpresaControllerTest {
     @Test
     @DisplayName("Deveria devolver 201 ao cadastrar com dados válidos")
     @WithMockUser
-    void cadastrarEmpresaCenario2() throws Exception {
+    void cadastrarEmpresaCenarioDadosValidos() throws Exception {
         var dados = criarDadosEmpresa();
         var empresa = criarEmpresa(dados);
 
@@ -90,13 +91,13 @@ class EmpresaControllerTest {
     @Test
     @DisplayName("Deveria devolver 200 ao listar empresas")
     @WithMockUser
-    void listarEmpresasCenario1() throws Exception {
+    void listarEmpresasCenario() throws Exception {
         var dados = criarDadosEmpresa();
         var empresa = criarEmpresa(dados);
 
         var empresas = new PageImpl<>(List.of(empresa));
 
-        when(repository.findAll(any(Pageable.class))).thenReturn(empresas);
+        when(repository.findAllByAtivo(eq(1), any(Pageable.class))).thenReturn(empresas);
 
         var response = mvc.perform(get("/empresa")).andReturn().getResponse();
 
@@ -106,7 +107,7 @@ class EmpresaControllerTest {
     @Test
     @DisplayName("Deveria devolver 200 ao buscar empresa por ID existente")
     @WithMockUser
-    void buscarEmpresaPorIdCenario1() throws Exception {
+    void buscarEmpresaPorIdCenarioEmpresaExistente() throws Exception {
         var empresa = criarEmpresa(criarDadosEmpresa());
 
         when(repository.getReferenceById(1L)).thenReturn(empresa);
@@ -121,7 +122,7 @@ class EmpresaControllerTest {
     @Test
     @DisplayName("Deveria devolver 404 ao buscar empresa com ID inexistente")
     @WithMockUser
-    void buscarEmpresaPorIdCenario2() throws Exception {
+    void buscarEmpresaPorIdCenarioEmpresaInexistente() throws Exception {
         when(repository.getReferenceById(99L)).thenThrow(new jakarta.persistence.EntityNotFoundException());
 
         var response = mvc.perform(get("/empresa/99")).andReturn().getResponse();

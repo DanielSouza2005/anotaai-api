@@ -21,6 +21,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -61,7 +62,7 @@ class ContatoControllerTest {
     @Test
     @DisplayName("Deveria devolver 400 ao tentar cadastrar contato com dados inválidos")
     @WithMockUser
-    void cadastrarContatoCenario1() throws Exception {
+    void cadastrarContatoCenarioDadosInvalidos() throws Exception {
         var response = mvc.perform(post("/contato")).andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
@@ -69,7 +70,7 @@ class ContatoControllerTest {
     @Test
     @DisplayName("Deveria devolver 201 ao cadastrar contato com dados válidos")
     @WithMockUser
-    void cadastrarContatoCenario2() throws Exception {
+    void cadastrarContatoCenarioDadosValidos() throws Exception {
         var dados = criarDadosContato();
         var contato = criarContato(dados);
 
@@ -94,7 +95,7 @@ class ContatoControllerTest {
 
         var contatos = new PageImpl<>(List.of(contato));
 
-        when(repository.findAll(any(Pageable.class))).thenReturn(contatos);
+        when(repository.findAllByAtivo(eq(1), any(Pageable.class))).thenReturn(contatos);
 
         var response = mvc.perform(get("/contato")).andReturn().getResponse();
 
@@ -104,7 +105,7 @@ class ContatoControllerTest {
     @Test
     @DisplayName("Deveria devolver 200 ao buscar contato por ID existente")
     @WithMockUser
-    void buscarContatoPorIdCenario1() throws Exception {
+    void buscarContatoPorIdCenarioContatoExistente() throws Exception {
         var contato = criarContato(criarDadosContato());
 
         when(repository.getReferenceById(1L)).thenReturn(contato);
@@ -119,7 +120,7 @@ class ContatoControllerTest {
     @Test
     @DisplayName("Deveria devolver 404 ao buscar contato com ID inexistente")
     @WithMockUser
-    void buscarContatoPorIdCenario2() throws Exception {
+    void buscarContatoPorIdCenarioContatoInexistente() throws Exception {
         when(repository.getReferenceById(99L)).thenThrow(new jakarta.persistence.EntityNotFoundException());
 
         var response = mvc.perform(get("/contato/99")).andReturn().getResponse();
