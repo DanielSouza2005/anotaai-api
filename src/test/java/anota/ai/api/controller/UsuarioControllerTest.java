@@ -60,7 +60,7 @@ class UsuarioControllerTest {
     @DisplayName("Deveria devolver 201 ao cadastrar com dados válidos")
     @WithMockUser
     void cadastrarUsuarioCenario2() throws Exception {
-        var dados = new DadosCadastroUsuario("João da Silva", "123456", "joao@email.com");
+        var dados = new DadosCadastroUsuario("João da Silva", "123456", "joao@email.com", "");
 
         when(passwordEncoder.encode(any())).thenReturn("123456");
         var usuario = new Usuario(dados, passwordEncoder);
@@ -81,7 +81,7 @@ class UsuarioControllerTest {
     @DisplayName("Deveria devolver 200 ao listar usuários")
     @WithMockUser
     void listarUsuariosCenario1() throws Exception {
-        var dados = new DadosCadastroUsuario("João", "123456", "joao@email.com");
+        var dados = new DadosCadastroUsuario("João", "123456", "joao@email.com", "");
         when(passwordEncoder.encode(any())).thenReturn("123456");
         var usuario = new Usuario(dados, passwordEncoder);
         usuario.setCod_usuario(1L);
@@ -100,7 +100,7 @@ class UsuarioControllerTest {
     @DisplayName("Deveria devolver 200 ao buscar usuário por ID existente")
     @WithMockUser
     void buscarUsuarioPorIdCenario1() throws Exception {
-        var dados = new DadosCadastroUsuario("Maria", "123456", "maria@email.com");
+        var dados = new DadosCadastroUsuario("Maria", "123456", "maria@email.com", "");
 
         when(passwordEncoder.encode(any())).thenReturn("123456");
         var usuario = new Usuario(dados, passwordEncoder);
@@ -132,9 +132,9 @@ class UsuarioControllerTest {
     @DisplayName("Deveria devolver 200 ao atualizar usuário com dados válidos")
     @WithMockUser
     void atualizarUsuario() throws Exception {
-        var dados = new DadosAtualizacaoUsuario(1L, "Novo Nome", "novaSenha", "novo@email.com");
+        var dados = new DadosAtualizacaoUsuario(1L, "Novo Nome", "novaSenha", "novo@email.com", "");
 
-        var usuario = new Usuario(new DadosCadastroUsuario("Antigo", "senhaAntiga", "antigo@email.com"), passwordEncoder);
+        var usuario = new Usuario(new DadosCadastroUsuario("Antigo", "senhaAntiga", "antigo@email.com", ""), passwordEncoder);
         usuario.setCod_usuario(1L);
 
         when(repository.getReferenceById(1L)).thenReturn(usuario);
@@ -154,7 +154,7 @@ class UsuarioControllerTest {
     @DisplayName("Deveria devolver 204 ao excluir usuário existente")
     @WithMockUser
     void excluirUsuario() throws Exception {
-        var usuario = new Usuario(new DadosCadastroUsuario("Usuário", "senha", "email@email.com"), passwordEncoder);
+        var usuario = new Usuario(new DadosCadastroUsuario("Usuário", "senha", "email@email.com", ""), passwordEncoder);
         usuario.setCod_usuario(1L);
 
         when(repository.getReferenceById(1L)).thenReturn(usuario);
@@ -169,7 +169,7 @@ class UsuarioControllerTest {
     @DisplayName("Deveria devolver 200 ao buscar usuário por ID")
     @WithMockUser
     void buscarUsuarioPorId() throws Exception {
-        var usuario = new Usuario(new DadosCadastroUsuario("Nome", "senha", "email@email.com"), passwordEncoder);
+        var usuario = new Usuario(new DadosCadastroUsuario("Nome", "senha", "email@email.com", ""), passwordEncoder);
         usuario.setCod_usuario(1L);
 
         when(repository.getReferenceById(1L)).thenReturn(usuario);
