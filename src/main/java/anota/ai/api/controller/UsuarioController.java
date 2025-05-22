@@ -8,10 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/usuario")
@@ -23,6 +27,9 @@ public class UsuarioController {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @GetMapping
     public ResponseEntity<Page<DadosListagemUsuario>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
@@ -38,28 +45,34 @@ public class UsuarioController {
         return ResponseEntity.ok(new DadosListagemUsuario(usuario));
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Transactional
-    public ResponseEntity<DadosListagemUsuario> cadastrar(@RequestBody @Valid DadosCadastroUsuario dados,
-                                                          UriComponentsBuilder uriBuilder) {
-        var usuario = repository.save(new Usuario(dados, passwordEncoder));
+    public ResponseEntity<DadosListagemUsuario> cadastrar(@RequestPart("dados") @Valid DadosCadastroUsuario dados,
+                                                          @RequestPart(value = "foto", required = false) MultipartFile foto,
+                                                          UriComponentsBuilder uriBuilder) throws IOException {
+        var usuario = new Usuario(dados, passwordEncoder);
+        usuarioService.salvarFoto(usuario, foto);
+        repository.save(usuario);
+
         var uri = uriBuilder.path("/usuario/{cod_usuario}").buildAndExpand(usuario.getCod_usuario()).toUri();
 
         return ResponseEntity.created(uri).body(new DadosListagemUsuario(usuario));
     }
 
-    @PutMapping
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Transactional
-    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoUsuario dados) {
+    public ResponseEntity<?> atualizar(@RequestPart("dados") @Valid DadosAtualizacaoUsuario dados,
+                                       @RequestPart(value = "foto", required = false) MultipartFile foto) throws IOException {
         var usuario = repository.getReferenceById(dados.cod_usuario());
         usuario.atualizarDados(dados, passwordEncoder);
+        usuarioService.salvarFoto(usuario, foto);
 
         return ResponseEntity.ok(new DadosListagemUsuario(usuario));
     }
 
     @DeleteMapping("/{cod_usuario}")
     @Transactional
-    public ResponseEntity excluir(@PathVariable Long cod_usuario) {
+    public ResponseEntity<?> excluir(@PathVariable Long cod_usuario) {
         var usuario = repository.getReferenceById(cod_usuario);
         usuario.excluir();
 

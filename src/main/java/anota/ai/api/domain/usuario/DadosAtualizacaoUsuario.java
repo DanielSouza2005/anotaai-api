@@ -4,6 +4,7 @@ public record DadosAtualizacaoUsuario(
         Long cod_usuario,
         String nome,
         String senha,
-        String email
+        String email,
+        String foto
 ) {
 }

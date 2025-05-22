@@ -13,6 +13,8 @@ public record DadosCadastroUsuario(
 
         @NotBlank(message = "O e-mail não pode estar em branco.")
         @Email(message = "O e-mail deve ser um endereço válido.")
-        String email
+        String email,
+
+        String foto
 ) {
 }

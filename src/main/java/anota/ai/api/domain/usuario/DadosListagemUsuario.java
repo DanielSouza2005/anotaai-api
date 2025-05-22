@@ -8,7 +8,8 @@ public record DadosListagemUsuario(
         String email,
         int ativo,
         Date dt_inclusao,
-        Date dt_alteracao
+        Date dt_alteracao,
+        String foto
 ) {
     public DadosListagemUsuario(Usuario usuario) {
         this(usuario.getCod_usuario(),
@@ -16,6 +17,7 @@ public record DadosListagemUsuario(
                 usuario.getEmail(),
                 usuario.getAtivo(),
                 usuario.getDt_inclusao(),
-                usuario.getDt_alteracao());
+                usuario.getDt_alteracao(),
+                usuario.getFoto());
     }
 }

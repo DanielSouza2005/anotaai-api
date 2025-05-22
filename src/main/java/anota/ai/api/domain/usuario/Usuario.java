@@ -31,11 +31,13 @@ public class Usuario implements UserDetails {
     private int ativo;
     private Date dt_inclusao;
     private Date dt_alteracao;
+    private String foto;
 
     public Usuario(DadosCadastroUsuario dados, BCryptPasswordEncoder encoder) {
         this.nome = dados.nome();
         this.senha = encoder.encode(dados.senha());
         this.email = dados.email();
+        this.foto = dados.foto();
 
         this.ativo = 1;
         this.dt_inclusao = new Date();
@@ -55,6 +57,10 @@ public class Usuario implements UserDetails {
 
         if (dados.email() != null) {
             this.email = dados.email();
+        }
+
+        if (dados.foto() != null) {
+            this.foto = dados.foto();
         }
     }
 
