@@ -35,7 +35,8 @@ public record DadosCadastroContato(
 
         String cargo,
         String departamento,
-        String obs
+        String obs,
+        String foto
 ) {
 
 }

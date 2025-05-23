@@ -19,7 +19,8 @@ public record DadosListagemContato(
         Date dt_alteracao,
         String cargo,
         String departamento,
-        String obs
+        String obs,
+        String foto
 ) {
     public DadosListagemContato(Contato contato) {
         this(contato.getCod_contato(),
@@ -46,7 +47,8 @@ public record DadosListagemContato(
                 contato.getDt_alteracao(),
                 contato.getCargo(),
                 contato.getDepartamento(),
-                contato.getObs());
+                contato.getObs(),
+                contato.getFoto());
     }
 
 }

@@ -15,6 +15,7 @@ public record DadosAtualizacaoContato(
         DadosCadastroEndereco endereco,
         String cargo,
         String departamento,
-        String obs
+        String obs,
+        String foto
 ) {
 }

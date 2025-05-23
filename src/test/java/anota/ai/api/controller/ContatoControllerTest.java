@@ -49,7 +49,7 @@ class ContatoControllerTest {
         return new DadosCadastroContato(
                 "João Silva", 1L, "12345678901", "11999999999", "1133334444", "1133335555",
                 "joao@email.com", "joao@empresa.com", new DadosCadastroEndereco("Brasil", "SP", "Americana", "Centro", "Rua X", "123", "", "13465120"),
-                "Analista", "TI", "Sem observações"
+                "Analista", "TI", "Sem observações", ""
         );
     }
 
@@ -134,7 +134,7 @@ class ContatoControllerTest {
     void atualizarContato() throws Exception {
         var dados = new DadosAtualizacaoContato(1L, "Novo Nome", 2L, "1133344455", "1133344466",
                 "19999999999", "19999999999", "novoemail@email.com",
-                "novo@empresa.com", null, "Consultor", "Comercial", "Teste");
+                "novo@empresa.com", null, "Consultor", "Comercial", "Teste", "");
 
         var contato = criarContato(criarDadosContato());
 

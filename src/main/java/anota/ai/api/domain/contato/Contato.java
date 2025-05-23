@@ -42,6 +42,7 @@ public class Contato {
     private String cargo;
     private String departamento;
     private String obs;
+    private String foto;
 
     public Contato(DadosCadastroContato dados) {
         this.nome = dados.nome();
@@ -66,6 +67,7 @@ public class Contato {
         this.cargo = dados.cargo();
         this.departamento = dados.departamento();
         this.obs = dados.obs();
+        this.foto = dados.foto();
     }
 
     public void atualizarDados(DadosAtualizacaoContato dados) {
@@ -122,6 +124,10 @@ public class Contato {
 
         if (dados.obs() != null) {
             this.obs = dados.obs();
+        }
+
+        if (dados.foto() != null) {
+            this.foto = dados.foto();
         }
     }
 
