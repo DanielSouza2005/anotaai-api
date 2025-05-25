@@ -34,9 +34,6 @@ public class ContatoController {
     @Autowired
     private FotoService fotoService;
 
-    @Value("${upload.dir.contato}")
-    private String uploadDir;
-
     @GetMapping
     public ResponseEntity<Page<DadosListagemContato>> listar(@PageableDefault(size = 10, sort = {"nome", "cpf"}) Pageable paginacao) {
         Page<DadosListagemContato> contatos = repository.findAllByAtivo(1, paginacao).map(DadosListagemContato::new);
@@ -49,23 +46,6 @@ public class ContatoController {
         var contato = repository.getReferenceById(cod_contato);
 
         return ResponseEntity.ok(new DadosListagemContato(contato));
-    }
-
-    @GetMapping("foto/{cod_contato}")
-    public ResponseEntity<?> servirFoto(@PathVariable Long cod_contato) throws IOException {
-        var contato = repository.getReferenceById(cod_contato);
-        Path caminho = Paths.get(uploadDir).toAbsolutePath().resolve(contato.getFoto()).normalize();
-
-        if (!Files.exists(caminho)) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Resource recurso = new UrlResource((caminho).toUri());
-        String contentType = Files.probeContentType(caminho);
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .body(recurso);
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
