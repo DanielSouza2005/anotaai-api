@@ -29,6 +29,7 @@ public class TokenService {
                     .withSubject(usuario.getEmail())
                     .withClaim("nome", usuario.getNome())
                     .withClaim("foto", usuario.getFoto())
+                    .withClaim("codigo", usuario.getCod_usuario())
                     .withExpiresAt(dataExpiracao())
                     .sign(algoritmo);
         } catch (JWTCreationException exception) {
@@ -45,6 +46,36 @@ public class TokenService {
                     .build()
                     .verify(tokenJWT)
                     .getSubject();
+        } catch (JWTVerificationException exception) {
+            throw new RuntimeException("Token JWT Inválido ou Expirado!");
+        }
+    }
+
+    public String getUserName(String tokenJWT) {
+        try {
+            var algoritmo = Algorithm.HMAC256(secret);
+
+            return JWT.require(algoritmo)
+                    .withIssuer(ISSUER)
+                    .build()
+                    .verify(tokenJWT)
+                    .getClaim("nome")
+                    .toString();
+        } catch (JWTVerificationException exception) {
+            throw new RuntimeException("Token JWT Inválido ou Expirado!");
+        }
+    }
+
+    public String getCodigo(String tokenJWT) {
+        try {
+            var algoritmo = Algorithm.HMAC256(secret);
+
+            return JWT.require(algoritmo)
+                    .withIssuer(ISSUER)
+                    .build()
+                    .verify(tokenJWT)
+                    .getClaim("codigo")
+                    .toString();
         } catch (JWTVerificationException exception) {
             throw new RuntimeException("Token JWT Inválido ou Expirado!");
         }
