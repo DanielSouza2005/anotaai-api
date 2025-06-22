@@ -1,5 +1,6 @@
 package anota.ai.api.controller;
 
+import anota.ai.api.domain.contato.ContatoRepository;
 import anota.ai.api.domain.empresa.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
@@ -19,6 +20,9 @@ public class EmpresaController {
 
     @Autowired
     private EmpresaRepository repository;
+
+    @Autowired
+    private ContatoRepository contatoRepository;
 
     @GetMapping
     public ResponseEntity<Page<DadosListagemEmpresa>> listar(@PageableDefault(size = 10, sort = {"razao", "fantasia", "cnpj"}) Pageable paginacao) {
@@ -57,7 +61,9 @@ public class EmpresaController {
     @Transactional
     public ResponseEntity excluir(@PathVariable Long cod_empresa) {
         var empresa = repository.getReferenceById(cod_empresa);
+
         empresa.excluir();
+        contatoRepository.desvincularEmpresa(cod_empresa);
 
         return ResponseEntity.noContent().build();
     }
