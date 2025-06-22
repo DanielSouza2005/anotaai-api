@@ -1,5 +1,6 @@
 package anota.ai.api.domain.usuario;
 
+import anota.ai.api.domain.status.StatusAtivo;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,7 +40,7 @@ public class Usuario implements UserDetails {
         this.email = dados.email();
         this.foto = dados.foto();
 
-        this.ativo = 1;
+        this.ativo = StatusAtivo.ATIVO.getCodigo();
         this.dt_inclusao = new Date();
         this.dt_alteracao = new Date();
     }
@@ -65,7 +66,7 @@ public class Usuario implements UserDetails {
     }
 
     public void excluir() {
-        this.ativo = 0;
+        this.ativo = StatusAtivo.INATIVO.getCodigo();
     }
 
     @Override
@@ -100,6 +101,6 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.ativo == StatusAtivo.ATIVO.getCodigo();
     }
 }

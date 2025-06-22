@@ -1,6 +1,7 @@
 package anota.ai.api.domain.empresa;
 
 import anota.ai.api.domain.endereco.Endereco;
+import anota.ai.api.domain.status.StatusAtivo;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,7 +27,7 @@ public class Empresa {
     @Embedded
     private Endereco endereco;
 
-    private short ativo;
+    private int ativo;
     private Date dt_inclusao;
     private Date dt_alteracao;
 
@@ -36,7 +37,7 @@ public class Empresa {
         this.cnpj = dados.cnpj();
         this.ie = dados.ie();
         this.endereco = new Endereco(dados.endereco());
-        this.ativo = 1;
+        this.ativo = StatusAtivo.ATIVO.getCodigo();
         this.dt_inclusao = new Date();
         this.dt_alteracao = new Date();
     }
@@ -68,6 +69,6 @@ public class Empresa {
     }
 
     public void excluir() {
-        this.ativo = 0;
+        this.ativo = StatusAtivo.INATIVO.getCodigo();
     }
 }
