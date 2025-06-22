@@ -94,6 +94,7 @@ public class UsuarioController {
         if (Objects.equals(codigoUsuarioToken, usuario.getCod_usuario().toString())) {
             return ResponseEntity
                     .status(HttpStatus.FORBIDDEN)
+                    .header("X-Error-Code", "USUARIO_LOGADO_EXCLUSAO_BLOQUEADA")
                     .body("Não é possível excluir o Usuário logado.");
         } else {
             usuario.excluir();
