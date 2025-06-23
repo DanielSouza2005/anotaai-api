@@ -2,6 +2,7 @@ package anota.ai.api.controller;
 
 import anota.ai.api.domain.contato.*;
 import anota.ai.api.domain.foto.FotoService;
+import anota.ai.api.domain.status.StatusAtivo;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -30,7 +31,7 @@ public class ContatoController {
 
     @GetMapping
     public ResponseEntity<Page<DadosListagemContato>> listar(@PageableDefault(size = 10, sort = {"nome", "cpf"}) Pageable paginacao) {
-        Page<DadosListagemContato> contatos = repository.findAllByAtivo(1, paginacao).map(DadosListagemContato::new);
+        Page<DadosListagemContato> contatos = repository.findAllByAtivo(StatusAtivo.ATIVO.getCodigo(), paginacao).map(DadosListagemContato::new);
 
         return ResponseEntity.ok(contatos);
     }

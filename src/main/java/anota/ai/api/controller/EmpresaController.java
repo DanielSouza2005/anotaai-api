@@ -2,6 +2,7 @@ package anota.ai.api.controller;
 
 import anota.ai.api.domain.contato.ContatoRepository;
 import anota.ai.api.domain.empresa.*;
+import anota.ai.api.domain.status.StatusAtivo;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -26,7 +27,7 @@ public class EmpresaController {
 
     @GetMapping
     public ResponseEntity<Page<DadosListagemEmpresa>> listar(@PageableDefault(size = 10, sort = {"razao", "fantasia", "cnpj"}) Pageable paginacao) {
-        var empresas = repository.findAllByAtivo(1, paginacao).map(DadosListagemEmpresa::new);
+        var empresas = repository.findAllByAtivo(StatusAtivo.ATIVO.getCodigo(), paginacao).map(DadosListagemEmpresa::new);
 
         return ResponseEntity.ok(empresas);
     }

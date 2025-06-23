@@ -1,6 +1,7 @@
 package anota.ai.api.controller;
 
 import anota.ai.api.domain.foto.FotoService;
+import anota.ai.api.domain.status.StatusAtivo;
 import anota.ai.api.domain.usuario.*;
 import anota.ai.api.infra.security.SecurityFilter;
 import anota.ai.api.infra.security.TokenService;
@@ -45,7 +46,7 @@ public class UsuarioController {
 
     @GetMapping
     public ResponseEntity<Page<DadosListagemUsuario>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
-        var usuarios = repository.findAllByAtivo(1, paginacao).map(DadosListagemUsuario::new);
+        var usuarios = repository.findAllByAtivo(StatusAtivo.ATIVO.getCodigo(), paginacao).map(DadosListagemUsuario::new);
 
         return ResponseEntity.ok(usuarios);
     }
