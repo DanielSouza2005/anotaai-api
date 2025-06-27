@@ -13,6 +13,6 @@ public interface ContatoRepository extends JpaRepository<Contato, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Contato c SET c.cod_empresa = null WHERE c.cod_empresa.cod_empresa = :codEmpresa")
+    @Query("UPDATE Contato c SET c.empresa = null WHERE c.empresa.cod_empresa = :codEmpresa")
     void desvincularEmpresa(@Param("codEmpresa") Long codEmpresa);
 }

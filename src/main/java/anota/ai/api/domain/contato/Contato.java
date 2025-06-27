@@ -24,7 +24,7 @@ public class Contato {
 
     @ManyToOne
     @JoinColumn(name = "cod_empresa", nullable = true)
-    private Empresa cod_empresa;
+    private Empresa empresa;
 
     private String cpf;
     private String celular;
@@ -49,8 +49,8 @@ public class Contato {
         this.nome = dados.nome();
 
         if (dados.cod_empresa() != null) {
-            this.cod_empresa = new Empresa();
-            this.cod_empresa.setCod_empresa(dados.cod_empresa());
+            this.empresa = new Empresa();
+            this.empresa.setCod_empresa(dados.cod_empresa());
         }
 
         this.cpf = dados.cpf();
@@ -79,8 +79,8 @@ public class Contato {
         }
 
         if (dados.cod_empresa() != null) {
-            this.cod_empresa = new Empresa();
-            this.cod_empresa.setCod_empresa(dados.cod_empresa());
+            this.empresa = new Empresa();
+            this.empresa.setCod_empresa(dados.cod_empresa());
         }
 
         if (dados.cpf() != null) {
