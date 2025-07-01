@@ -45,10 +45,25 @@ public class UsuarioController {
     private TokenService tokenService;
 
     @GetMapping
-    public ResponseEntity<Page<DadosListagemUsuario>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
-        var usuarios = repository.findAllByAtivo(StatusAtivo.ATIVO.getCodigo(), paginacao).map(DadosListagemUsuario::new);
+    public ResponseEntity<Page<DadosListagemUsuario>> listarFiltrado(
+            @RequestParam(required = false) String nome,
+            @RequestParam(required = false) String email,
+            @PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
 
-        return ResponseEntity.ok(usuarios);
+        if ((nome == null || nome.isBlank()) && (email == null || email.isBlank())) {
+            var usuarios = repository.findAllByAtivo(StatusAtivo.ATIVO.getCodigo(), paginacao)
+                    .map(DadosListagemUsuario::new);
+            return ResponseEntity.ok(usuarios);
+        }
+
+        Page<Usuario> usuarios = repository.buscarFiltrado(
+                nome,
+                email,
+                StatusAtivo.ATIVO.getCodigo(),
+                paginacao
+        );
+
+        return ResponseEntity.ok(usuarios.map(DadosListagemUsuario::new));
     }
 
     @GetMapping("/{cod_usuario}")

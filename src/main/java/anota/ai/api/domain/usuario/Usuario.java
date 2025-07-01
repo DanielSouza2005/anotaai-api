@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Table(name = "usuario")
-@Entity(name = "Usuário")
+@Entity(name = "Usuario")
 @Getter
 @Setter
 @NoArgsConstructor
