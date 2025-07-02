@@ -26,10 +26,32 @@ public class EmpresaController {
     private ContatoRepository contatoRepository;
 
     @GetMapping
-    public ResponseEntity<Page<DadosListagemEmpresa>> listar(@PageableDefault(size = 10, sort = {"razao", "fantasia", "cnpj"}) Pageable paginacao) {
-        var empresas = repository.findAllByAtivo(StatusAtivo.ATIVO.getCodigo(), paginacao).map(DadosListagemEmpresa::new);
+    public ResponseEntity<Page<DadosListagemEmpresa>> listar(
+            @RequestParam(required = false) String razao,
+            @RequestParam(required = false) String fantasia,
+            @RequestParam(required = false) String cnpj,
+            @RequestParam(required = false) String ie,
+            @PageableDefault(size = 10, sort = {"razao", "fantasia", "cnpj"}) Pageable paginacao) {
 
-        return ResponseEntity.ok(empresas);
+        if ((razao == null || razao.isBlank()) &&
+                (fantasia == null || fantasia.isBlank()) &&
+                (cnpj == null || cnpj.isBlank()) &&
+                (ie == null || ie.isBlank())) {
+            var empresas = repository.findAllByAtivo(StatusAtivo.ATIVO.getCodigo(), paginacao).map(DadosListagemEmpresa::new);
+
+            return ResponseEntity.ok(empresas);
+        }
+
+        Page<Empresa> empresas = repository.buscarFiltrado(
+                razao,
+                fantasia,
+                cnpj,
+                ie,
+                StatusAtivo.ATIVO.getCodigo(),
+                paginacao
+        );
+
+        return ResponseEntity.ok(empresas.map(DadosListagemEmpresa::new));
     }
 
     @GetMapping("/{cod_empresa}")

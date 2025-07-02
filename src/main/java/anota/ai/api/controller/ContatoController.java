@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +31,50 @@ public class ContatoController {
     private FotoService fotoService;
 
     @GetMapping
-    public ResponseEntity<Page<DadosListagemContato>> listar(@PageableDefault(size = 10, sort = {"nome", "cpf"}) Pageable paginacao) {
-        Page<DadosListagemContato> contatos = repository.findAllByAtivo(StatusAtivo.ATIVO.getCodigo(), paginacao).map(DadosListagemContato::new);
+    public ResponseEntity<Page<DadosListagemContato>> listar(
+            @RequestParam(required = false) String nome,
+            @RequestParam(required = false) String cpf,
+            @RequestParam(required = false) String celular,
+            @RequestParam(required = false) String telefone,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String cargo,
+            @RequestParam(required = false) String departamento,
+            @RequestParam(required = false) String razao,
+            @RequestParam(required = false) String fantasia,
+            @RequestParam(required = false) String cnpj,
+            @PageableDefault(size = 10, sort = {"nome", "cpf"}) Pageable paginacao) {
 
-        return ResponseEntity.ok(contatos);
+        if ((nome == null || nome.isBlank()) &&
+                (cpf == null || cpf.isBlank()) &&
+                (celular == null || celular.isBlank()) &&
+                (telefone == null || telefone.isBlank()) &&
+                (email == null || email.isBlank()) &&
+                (cargo == null || cargo.isBlank()) &&
+                (departamento == null || departamento.isBlank()) &&
+                (razao == null || razao.isBlank()) &&
+                (fantasia == null || fantasia.isBlank()) &&
+                (cnpj == null || cnpj.isBlank())) {
+            Page<DadosListagemContato> contatos = repository.findAllByAtivo(StatusAtivo.ATIVO.getCodigo(), paginacao).map(DadosListagemContato::new);
+
+            return ResponseEntity.ok(contatos);
+        }
+
+        Page<Contato> contatos = repository.buscarFiltrado(
+                nome,
+                cpf,
+                celular,
+                telefone,
+                email,
+                cargo,
+                departamento,
+                razao,
+                fantasia,
+                cnpj,
+                StatusAtivo.ATIVO.getCodigo(),
+                paginacao
+        );
+
+        return ResponseEntity.ok(contatos.map(DadosListagemContato::new));
     }
 
     @GetMapping("/{cod_contato}")
