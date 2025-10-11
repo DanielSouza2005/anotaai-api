@@ -2,7 +2,6 @@ package anota.ai.api.domain.foto.service;
 
 import anota.ai.api.domain.contato.model.Contato;
 import anota.ai.api.domain.foto.model.FotoTipo;
-import anota.ai.api.domain.foto.provider.SupabaseStorageService;
 import anota.ai.api.domain.usuario.model.Usuario;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,9 +11,9 @@ import java.io.IOException;
 @Service
 public class FotoService {
 
-    private final SupabaseStorageService storageService;
+    private final StorageService storageService;
 
-    public FotoService(SupabaseStorageService storageService) {
+    public FotoService(StorageService storageService) {
         this.storageService = storageService;
     }
 

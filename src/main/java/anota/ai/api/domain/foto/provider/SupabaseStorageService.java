@@ -1,5 +1,6 @@
 package anota.ai.api.domain.foto.provider;
 
+import anota.ai.api.domain.foto.service.StorageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Service
-public class SupabaseStorageService {
+public class SupabaseStorageService implements StorageService {
 
     @Value("${supabase.url}")
     private String supabaseUrl;
@@ -23,12 +24,12 @@ public class SupabaseStorageService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public String uploadFile(MultipartFile file, String pasta) throws IOException {
+    public String uploadFile(MultipartFile file, String diretorio) throws IOException {
         if (file == null || file.isEmpty()) {
             return null;
         }
 
-        String fileName = pasta + "/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
+        String fileName = diretorio + "/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
         String uploadUrl = supabaseUrl + "/storage/v1/object/" + supabaseBucket + "/" + fileName;
 
         HttpHeaders headers = new HttpHeaders();
