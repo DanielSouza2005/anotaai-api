@@ -1,5 +1,6 @@
-package anota.ai.api.domain.usuario;
+package anota.ai.api.domain.usuario.repository;
 
+import anota.ai.api.domain.usuario.model.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

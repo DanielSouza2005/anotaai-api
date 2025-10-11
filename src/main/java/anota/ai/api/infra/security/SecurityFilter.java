@@ -1,6 +1,6 @@
 package anota.ai.api.infra.security;
 
-import anota.ai.api.domain.usuario.UsuarioRepository;
+import anota.ai.api.domain.usuario.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,9 +1,8 @@
-package anota.ai.api.domain.contato;
+package anota.ai.api.domain.contato.dto;
 
-import anota.ai.api.domain.empresa.DadosCadastroEmpresa;
-import anota.ai.api.domain.empresa.DadosListagemEmpresa;
-import anota.ai.api.domain.empresa.Empresa;
-import anota.ai.api.domain.endereco.DadosCadastroEndereco;
+import anota.ai.api.domain.contato.model.Contato;
+import anota.ai.api.domain.empresa.dto.DadosListagemEmpresa;
+import anota.ai.api.domain.endereco.dto.DadosCadastroEndereco;
 
 import java.util.Date;
 

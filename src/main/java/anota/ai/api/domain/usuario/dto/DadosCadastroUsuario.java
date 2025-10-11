@@ -1,4 +1,4 @@
-package anota.ai.api.domain.usuario;
+package anota.ai.api.domain.usuario.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

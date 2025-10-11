@@ -1,7 +1,11 @@
 package anota.ai.api.controller;
 
-import anota.ai.api.domain.contato.*;
-import anota.ai.api.domain.endereco.DadosCadastroEndereco;
+import anota.ai.api.domain.contato.dto.DadosAtualizacaoContato;
+import anota.ai.api.domain.contato.dto.DadosCadastroContato;
+import anota.ai.api.domain.contato.dto.DadosListagemContato;
+import anota.ai.api.domain.contato.model.Contato;
+import anota.ai.api.domain.contato.repository.ContatoRepository;
+import anota.ai.api.domain.endereco.dto.DadosCadastroEndereco;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

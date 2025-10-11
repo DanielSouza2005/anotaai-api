@@ -1,15 +1,18 @@
 package anota.ai.api.controller;
 
-import anota.ai.api.domain.contato.*;
-import anota.ai.api.domain.foto.FotoService;
-import anota.ai.api.domain.status.StatusAtivo;
+import anota.ai.api.domain.contato.dto.DadosAtualizacaoContato;
+import anota.ai.api.domain.contato.dto.DadosCadastroContato;
+import anota.ai.api.domain.contato.dto.DadosListagemContato;
+import anota.ai.api.domain.contato.model.Contato;
+import anota.ai.api.domain.contato.repository.ContatoRepository;
+import anota.ai.api.domain.foto.service.FotoService;
+import anota.ai.api.domain.status.model.StatusAtivo;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

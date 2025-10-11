@@ -1,6 +1,6 @@
 package anota.ai.api.infra.security;
 
-import anota.ai.api.domain.usuario.Usuario;
+import anota.ai.api.domain.usuario.model.Usuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;

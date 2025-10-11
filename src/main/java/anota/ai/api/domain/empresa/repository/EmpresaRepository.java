@@ -1,5 +1,6 @@
-package anota.ai.api.domain.empresa;
+package anota.ai.api.domain.empresa.repository;
 
+import anota.ai.api.domain.empresa.model.Empresa;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

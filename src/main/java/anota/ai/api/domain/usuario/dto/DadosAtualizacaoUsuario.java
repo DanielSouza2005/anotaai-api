@@ -1,4 +1,4 @@
-package anota.ai.api.domain.usuario;
+package anota.ai.api.domain.usuario.dto;
 
 public record DadosAtualizacaoUsuario(
         Long cod_usuario,

@@ -1,9 +1,8 @@
-package anota.ai.api.domain.status;
+package anota.ai.api.domain.status.model;
 
 public enum StatusAtivo {
     ATIVO(1),
-    INATIVO(0),
-    PENDENTE(2);
+    INATIVO(0);
 
     private final int codigo;
 

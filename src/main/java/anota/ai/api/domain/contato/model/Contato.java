@@ -1,8 +1,10 @@
-package anota.ai.api.domain.contato;
+package anota.ai.api.domain.contato.model;
 
-import anota.ai.api.domain.empresa.Empresa;
-import anota.ai.api.domain.endereco.Endereco;
-import anota.ai.api.domain.status.StatusAtivo;
+import anota.ai.api.domain.contato.dto.DadosAtualizacaoContato;
+import anota.ai.api.domain.contato.dto.DadosCadastroContato;
+import anota.ai.api.domain.empresa.model.Empresa;
+import anota.ai.api.domain.endereco.model.Endereco;
+import anota.ai.api.domain.status.model.StatusAtivo;
 import jakarta.persistence.*;
 import lombok.*;
 

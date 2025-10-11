@@ -1,8 +1,12 @@
 package anota.ai.api.controller;
 
-import anota.ai.api.domain.foto.FotoService;
-import anota.ai.api.domain.status.StatusAtivo;
-import anota.ai.api.domain.usuario.*;
+import anota.ai.api.domain.foto.service.FotoService;
+import anota.ai.api.domain.status.model.StatusAtivo;
+import anota.ai.api.domain.usuario.dto.DadosAtualizacaoUsuario;
+import anota.ai.api.domain.usuario.dto.DadosCadastroUsuario;
+import anota.ai.api.domain.usuario.dto.DadosListagemUsuario;
+import anota.ai.api.domain.usuario.model.Usuario;
+import anota.ai.api.domain.usuario.repository.UsuarioRepository;
 import anota.ai.api.infra.security.SecurityFilter;
 import anota.ai.api.infra.security.TokenService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

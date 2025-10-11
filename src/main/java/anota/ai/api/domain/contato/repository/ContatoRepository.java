@@ -1,6 +1,6 @@
-package anota.ai.api.domain.contato;
+package anota.ai.api.domain.contato.repository;
 
-import anota.ai.api.domain.empresa.Empresa;
+import anota.ai.api.domain.contato.model.Contato;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

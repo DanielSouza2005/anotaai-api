@@ -1,7 +1,7 @@
 package anota.ai.api.controller;
 
-import anota.ai.api.domain.usuario.DadosAutenticacao;
-import anota.ai.api.domain.usuario.Usuario;
+import anota.ai.api.domain.usuario.dto.DadosAutenticacao;
+import anota.ai.api.domain.usuario.model.Usuario;
 import anota.ai.api.infra.security.DadosTokenJWT;
 import anota.ai.api.infra.security.TokenService;
 import jakarta.validation.Valid;

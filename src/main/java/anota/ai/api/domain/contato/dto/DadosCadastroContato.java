@@ -1,6 +1,6 @@
-package anota.ai.api.domain.contato;
+package anota.ai.api.domain.contato.dto;
 
-import anota.ai.api.domain.endereco.DadosCadastroEndereco;
+import anota.ai.api.domain.endereco.dto.DadosCadastroEndereco;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

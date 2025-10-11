@@ -1,5 +1,6 @@
-package anota.ai.api.domain.endereco;
+package anota.ai.api.domain.endereco.model;
 
+import anota.ai.api.domain.endereco.dto.DadosCadastroEndereco;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

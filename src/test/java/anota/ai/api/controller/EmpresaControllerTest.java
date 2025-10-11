@@ -1,7 +1,11 @@
 package anota.ai.api.controller;
 
-import anota.ai.api.domain.empresa.*;
-import anota.ai.api.domain.endereco.DadosCadastroEndereco;
+import anota.ai.api.domain.empresa.dto.DadosAtualizacaoEmpresa;
+import anota.ai.api.domain.empresa.dto.DadosCadastroEmpresa;
+import anota.ai.api.domain.empresa.dto.DadosListagemEmpresa;
+import anota.ai.api.domain.empresa.model.Empresa;
+import anota.ai.api.domain.empresa.repository.EmpresaRepository;
+import anota.ai.api.domain.endereco.dto.DadosCadastroEndereco;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,7 +139,7 @@ class EmpresaControllerTest {
     @WithMockUser
     void atualizarEmpresa() throws Exception {
         var dados = new DadosAtualizacaoEmpresa(1L, "Nova Razão", "Nova Fantasia", "11122233344455", "87654321",
-                new anota.ai.api.domain.endereco.DadosCadastroEndereco("Brasil", "RJ", "Rio de Janeiro", "Copacabana", "Rua B", "200", "Casa", "22000000"));
+                new DadosCadastroEndereco("Brasil", "RJ", "Rio de Janeiro", "Copacabana", "Rua B", "200", "Casa", "22000000"));
 
         var empresa = criarEmpresa(criarDadosEmpresa());
 

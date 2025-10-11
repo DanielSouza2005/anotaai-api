@@ -1,4 +1,6 @@
-package anota.ai.api.domain.usuario;
+package anota.ai.api.domain.usuario.dto;
+
+import anota.ai.api.domain.usuario.model.Usuario;
 
 import java.util.Date;
 

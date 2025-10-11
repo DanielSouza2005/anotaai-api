@@ -1,8 +1,10 @@
 package anota.ai.api.controller;
 
-import anota.ai.api.domain.contato.ContatoRepository;
-import anota.ai.api.domain.empresa.*;
-import anota.ai.api.domain.status.StatusAtivo;
+import anota.ai.api.domain.contato.repository.ContatoRepository;
+import anota.ai.api.domain.empresa.dto.DadosCadastroEmpresa;
+import anota.ai.api.domain.empresa.dto.DadosListagemEmpresa;
+import anota.ai.api.domain.empresa.model.Empresa;
+import anota.ai.api.domain.status.model.StatusAtivo;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -20,7 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class EmpresaController {
 
     @Autowired
-    private EmpresaRepository repository;
+    private anota.ai.api.domain.empresa.repository.EmpresaRepository repository;
 
     @Autowired
     private ContatoRepository contatoRepository;
@@ -73,7 +75,7 @@ public class EmpresaController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoEmpresa dados) {
+    public ResponseEntity atualizar(@RequestBody @Valid anota.ai.api.domain.empresa.dto.DadosAtualizacaoEmpresa dados) {
         var empresa = repository.getReferenceById(dados.cod_empresa());
         empresa.atualizarDados(dados);
 
