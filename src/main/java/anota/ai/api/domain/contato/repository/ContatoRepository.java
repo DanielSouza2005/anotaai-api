@@ -4,6 +4,7 @@ import anota.ai.api.domain.contato.model.Contato;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -67,6 +68,7 @@ public interface ContatoRepository extends JpaRepository<Contato, Long> {
                                  @Param("ativo") int ativo,
                                  Pageable pageable);
 
+    @EntityGraph(attributePaths = {"emails", "telefones", "empresa"})
     Page<Contato> findAllByAtivo(int ativo, Pageable paginacao);
 
     @Modifying

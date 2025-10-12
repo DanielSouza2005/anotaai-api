@@ -10,9 +10,9 @@ import anota.ai.api.domain.status.model.StatusAtivo;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Table(name = "contato")
 @Entity(name = "Contato")
@@ -33,10 +33,10 @@ public class Contato {
     private Empresa empresa;
 
     @OneToMany(mappedBy = "contato", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ContatoEmail> emails = new ArrayList<>();
+    private Set<ContatoEmail> emails = new HashSet<>();
 
     @OneToMany(mappedBy = "contato", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ContatoTelefone> telefones = new ArrayList<>();
+    private Set<ContatoTelefone> telefones = new HashSet<>();
 
     @Embedded
     private Endereco endereco;
@@ -111,7 +111,7 @@ public class Contato {
             this.cpf = dados.cpf();
         }
 
-        if (dados.telefones() != null){
+        if (dados.telefones() != null) {
             this.telefones.clear();
             for (DadosCadastroContatoTelefone contatoTelefone : dados.telefones()) {
                 ContatoTelefone telefone = new ContatoTelefone();
@@ -122,7 +122,7 @@ public class Contato {
             }
         }
 
-        if (dados.emails() != null){
+        if (dados.emails() != null) {
             this.emails.clear();
             for (DadosCadastroContatoEmail contatoEmail : dados.emails()) {
                 ContatoEmail email = new ContatoEmail();
