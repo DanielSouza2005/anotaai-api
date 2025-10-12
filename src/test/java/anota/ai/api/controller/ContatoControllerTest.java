@@ -1,8 +1,6 @@
 package anota.ai.api.controller;
 
-import anota.ai.api.domain.contato.dto.DadosAtualizacaoContato;
-import anota.ai.api.domain.contato.dto.DadosCadastroContato;
-import anota.ai.api.domain.contato.dto.DadosListagemContato;
+import anota.ai.api.domain.contato.dto.*;
 import anota.ai.api.domain.contato.model.Contato;
 import anota.ai.api.domain.contato.repository.ContatoRepository;
 import anota.ai.api.domain.endereco.dto.DadosCadastroEndereco;
@@ -51,9 +49,30 @@ class ContatoControllerTest {
 
     private DadosCadastroContato criarDadosContato() {
         return new DadosCadastroContato(
-                "João Silva", 1L, "12345678901", "11999999999", "1133334444", "1133335555",
-                "joao@email.com", "joao@empresa.com", new DadosCadastroEndereco("Brasil", "SP", "Americana", "Centro", "Rua X", "123", "", "13465120"),
-                "Analista", "TI", "Sem observações", ""
+                "João Silva",
+                1L,
+                "12345678901",
+                List.of(
+                        new DadosCadastroContatoTelefone("11999999999", "Celular"),
+                        new DadosCadastroContatoTelefone("1133334444", "Residencial"),
+                        new DadosCadastroContatoTelefone("1133335555", "Comercial")
+                ),
+                List.of(
+                        new DadosCadastroContatoEmail("joao@email.com", "Pessoal"),
+                        new DadosCadastroContatoEmail("joao@empresa.com", "Corporativo")
+                ),
+                new DadosCadastroEndereco("Brasil",
+                        "SP",
+                        "Americana",
+                        "Centro",
+                        "Rua X",
+                        "123",
+                        "",
+                        "13465120"),
+                "Analista",
+                "TI",
+                "Sem observações",
+                ""
         );
     }
 
@@ -136,9 +155,24 @@ class ContatoControllerTest {
     @DisplayName("Deveria devolver 200 ao atualizar contato com dados válidos")
     @WithMockUser
     void atualizarContato() throws Exception {
-        var dados = new DadosAtualizacaoContato(1L, "Novo Nome", 2L, "1133344455", "1133344466",
-                "19999999999", "19999999999", "novoemail@email.com",
-                "novo@empresa.com", null, "Consultor", "Comercial", "Teste", "");
+        var dados = new DadosAtualizacaoContato(
+                1L,
+                "Novo Nome",
+                2L,
+                "1133344455",
+                List.of(
+                        new DadosCadastroContatoTelefone("19999999999", "Celular"),
+                        new DadosCadastroContatoTelefone("19999999999", "Residencial")
+                        ),
+                List.of(
+                        new DadosCadastroContatoEmail("novoemail@email.com", "Pessoal"),
+                        new DadosCadastroContatoEmail("novo@empresa.com", "Corporativo")
+                        ),
+                null,
+                "Consultor",
+                "Comercial",
+                "Teste",
+                "");
 
         var contato = criarContato(criarDadosContato());
 
