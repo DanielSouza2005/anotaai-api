@@ -2,13 +2,17 @@ package anota.ai.api.domain.contato.model;
 
 import anota.ai.api.domain.contato.dto.DadosAtualizacaoContato;
 import anota.ai.api.domain.contato.dto.DadosCadastroContato;
+import anota.ai.api.domain.contato.dto.DadosCadastroContatoEmail;
+import anota.ai.api.domain.contato.dto.DadosCadastroContatoTelefone;
 import anota.ai.api.domain.empresa.model.Empresa;
 import anota.ai.api.domain.endereco.model.Endereco;
 import anota.ai.api.domain.status.model.StatusAtivo;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Table(name = "contato")
 @Entity(name = "Contato")
@@ -28,16 +32,16 @@ public class Contato {
     @JoinColumn(name = "cod_empresa", nullable = true)
     private Empresa empresa;
 
-    private String cpf;
-    private String celular;
-    private String telefone;
-    private String telefone2;
-    private String email_pessoal;
-    private String email_corp;
+    @OneToMany(mappedBy = "contato", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ContatoEmail> emails = new ArrayList<>();
+
+    @OneToMany(mappedBy = "contato", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ContatoTelefone> telefones = new ArrayList<>();
 
     @Embedded
     private Endereco endereco;
 
+    private String cpf;
     private int ativo;
     private Date dt_inclusao;
     private Date dt_alteracao;
@@ -56,13 +60,31 @@ public class Contato {
         }
 
         this.cpf = dados.cpf();
-        this.celular = dados.celular();
-        this.telefone = dados.telefone();
-        this.telefone2 = dados.telefone2();
-        this.email_pessoal = dados.email_pessoal();
-        this.email_corp = dados.email_corp();
 
-        this.endereco = new Endereco(dados.endereco());
+        if (dados.telefones() != null) {
+            for (DadosCadastroContatoTelefone contatoTelefone : dados.telefones()) {
+                ContatoTelefone telefone = new ContatoTelefone();
+                telefone.setContato(this);
+                telefone.setTelefone(contatoTelefone.telefone());
+                telefone.setTipo(contatoTelefone.tipo());
+                this.telefones.add(telefone);
+            }
+        }
+
+        if (dados.emails() != null) {
+            for (DadosCadastroContatoEmail contatoEmail : dados.emails()) {
+                ContatoEmail email = new ContatoEmail();
+                email.setContato(this);
+                email.setEmail(contatoEmail.email());
+                email.setTipo(contatoEmail.tipo());
+                this.emails.add(email);
+            }
+        }
+
+        if (dados.endereco() != null) {
+            this.endereco = new Endereco(dados.endereco());
+        }
+
         this.ativo = StatusAtivo.ATIVO.getCodigo();
         this.dt_inclusao = new Date();
         this.dt_alteracao = new Date();
@@ -89,24 +111,26 @@ public class Contato {
             this.cpf = dados.cpf();
         }
 
-        if (dados.celular() != null) {
-            this.celular = dados.celular();
+        if (dados.telefones() != null){
+            this.telefones.clear();
+            for (DadosCadastroContatoTelefone contatoTelefone : dados.telefones()) {
+                ContatoTelefone telefone = new ContatoTelefone();
+                telefone.setContato(this);
+                telefone.setTelefone(contatoTelefone.telefone());
+                telefone.setTipo(contatoTelefone.tipo());
+                this.telefones.add(telefone);
+            }
         }
 
-        if (dados.telefone() != null) {
-            this.telefone = dados.telefone();
-        }
-
-        if (dados.telefone2() != null) {
-            this.telefone2 = dados.telefone2();
-        }
-
-        if (dados.email_pessoal() != null) {
-            this.email_pessoal = dados.email_pessoal();
-        }
-
-        if (dados.email_corp() != null) {
-            this.email_corp = dados.email_corp();
+        if (dados.emails() != null){
+            this.emails.clear();
+            for (DadosCadastroContatoEmail contatoEmail : dados.emails()) {
+                ContatoEmail email = new ContatoEmail();
+                email.setContato(this);
+                email.setEmail(contatoEmail.email());
+                email.setTipo(contatoEmail.tipo());
+                this.emails.add(email);
+            }
         }
 
         if (dados.endereco() != null) {

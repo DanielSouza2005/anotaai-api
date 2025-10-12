@@ -12,12 +12,11 @@ import org.springframework.data.repository.query.Param;
 public interface ContatoRepository extends JpaRepository<Contato, Long> {
 
     @Query(value = """
-            SELECT c.*,
-                   e.razao,
-                   e.fantasia,
-                   e.cnpj
+            SELECT DISTINCT c.*
             FROM contato c
             LEFT JOIN empresa e ON (c.cod_empresa = e.cod_empresa)
+            LEFT JOIN contato_email ce ON (ce.cod_contato = c.cod_contato)
+            LEFT JOIN contato_telefone ct ON (ct.cod_contato = c.cod_contato)
             WHERE c.ativo = :ativo
             AND(
                 :nome IS NULL
@@ -26,30 +25,6 @@ public interface ContatoRepository extends JpaRepository<Contato, Long> {
             AND (
                 :cpf IS NULL
                 OR unaccent(lower(c.cpf)) LIKE unaccent(lower('%' || :cpf || '%'))
-            )
-            AND (
-                :celular IS NULL
-                OR unaccent(lower(c.celular)) LIKE unaccent(lower('%' || :celular || '%'))
-            )
-            AND (
-                    (
-                        :telefone IS NULL
-                        OR unaccent(lower(c.telefone)) LIKE unaccent(lower('%' || :telefone || '%'))
-                    )
-                    OR (
-                        :telefone IS NULL
-                        OR unaccent(lower(c.telefone2)) LIKE unaccent(lower('%' || :telefone || '%'))
-                    )
-            )
-            AND (
-                    (
-                        :email IS NULL
-                        OR unaccent(lower(c.email_pessoal)) LIKE unaccent(lower('%' || :email || '%'))
-                    )
-                    OR (
-                        :email IS NULL
-                        OR unaccent(lower(c.email_corp)) LIKE unaccent(lower('%' || :email || '%'))
-                    )
             )
             AND (
                 :cargo IS NULL
@@ -71,10 +46,17 @@ public interface ContatoRepository extends JpaRepository<Contato, Long> {
                 :cnpj IS NULL
                 OR unaccent(lower(e.cnpj)) LIKE unaccent(lower('%' || :cnpj || '%'))
             )
+            AND (
+                 :email IS NULL
+                 OR unaccent(lower(ce.email)) LIKE unaccent(lower(CONCAT('%' || :email || '%')))
+            )
+            AND (
+                 :telefone IS NULL
+                 OR unaccent(lower(ct.telefone)) LIKE unaccent(lower(CONCAT('%' || :telefone || '%')))
+            )
             """, nativeQuery = true)
     Page<Contato> buscarFiltrado(@Param("nome") String nome,
                                  @Param("cpf") String cpf,
-                                 @Param("celular") String celular,
                                  @Param("telefone") String telefone,
                                  @Param("email") String email,
                                  @Param("cargo") String cargo,

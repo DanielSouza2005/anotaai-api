@@ -2,16 +2,15 @@ package anota.ai.api.domain.contato.dto;
 
 import anota.ai.api.domain.endereco.dto.DadosCadastroEndereco;
 
+import java.util.List;
+
 public record DadosAtualizacaoContato(
         Long cod_contato,
         String nome,
         Long cod_empresa,
         String cpf,
-        String celular,
-        String telefone,
-        String telefone2,
-        String email_pessoal,
-        String email_corp,
+        List<DadosCadastroContatoTelefone> telefones,
+        List<DadosCadastroContatoEmail> emails,
         DadosCadastroEndereco endereco,
         String cargo,
         String departamento,

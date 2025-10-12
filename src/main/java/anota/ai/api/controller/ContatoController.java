@@ -37,7 +37,6 @@ public class ContatoController {
     public ResponseEntity<Page<DadosListagemContato>> listar(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) String cpf,
-            @RequestParam(required = false) String celular,
             @RequestParam(required = false) String telefone,
             @RequestParam(required = false) String email,
             @RequestParam(required = false) String cargo,
@@ -49,7 +48,6 @@ public class ContatoController {
 
         if ((nome == null || nome.isBlank()) &&
                 (cpf == null || cpf.isBlank()) &&
-                (celular == null || celular.isBlank()) &&
                 (telefone == null || telefone.isBlank()) &&
                 (email == null || email.isBlank()) &&
                 (cargo == null || cargo.isBlank()) &&
@@ -65,7 +63,6 @@ public class ContatoController {
         Page<Contato> contatos = repository.buscarFiltrado(
                 nome,
                 cpf,
-                celular,
                 telefone,
                 email,
                 cargo,

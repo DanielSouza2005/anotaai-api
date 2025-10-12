@@ -5,17 +5,16 @@ import anota.ai.api.domain.empresa.dto.DadosListagemEmpresa;
 import anota.ai.api.domain.endereco.dto.DadosCadastroEndereco;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public record DadosListagemContato(
         Long cod_contato,
         String nome,
         String cpf,
         DadosListagemEmpresa empresa,
-        String celular,
-        String telefone,
-        String telefone2,
-        String email_pessoal,
-        String email_corp,
+        List<DadosListagemContatoEmail> emails,
+        List<DadosListagemContatoTelefone> telefones,
         DadosCadastroEndereco endereco,
         Date dt_inclusao,
         Date dt_alteracao,
@@ -28,12 +27,19 @@ public record DadosListagemContato(
         this(contato.getCod_contato(),
                 contato.getNome(),
                 contato.getCpf(),
-                contato.getEmpresa() != null ? new DadosListagemEmpresa(contato.getEmpresa()) : null,
-                contato.getCelular(),
-                contato.getTelefone(),
-                contato.getTelefone2(),
-                contato.getEmail_pessoal(),
-                contato.getEmail_corp(),
+                contato.getEmpresa() != null
+                        ? new DadosListagemEmpresa(contato.getEmpresa())
+                        : null,
+                contato.getEmails() != null
+                        ? contato.getEmails().stream()
+                            .map(DadosListagemContatoEmail::new)
+                            .collect(Collectors.toList())
+                        : List.of(),
+                contato.getTelefones() != null
+                        ? contato.getTelefones().stream()
+                            .map(DadosListagemContatoTelefone::new)
+                            .collect(Collectors.toList())
+                        : List.of(),
                 contato.getEndereco() != null ?
                         new DadosCadastroEndereco(
                                 contato.getEndereco().getPais(),
