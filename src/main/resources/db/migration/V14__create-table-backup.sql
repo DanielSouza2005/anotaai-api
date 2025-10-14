@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS backup (
+    COD_BACKUP SERIAL PRIMARY KEY,
+    COD_USUARIO INTEGER NULL,
+    caminho_arquivo VARCHAR(255) NOT NULL,
+    formato INTEGER NOT NULL,
+    dt_inclusao TIMESTAMP DEFAULT NOW(),
+    dt_alteracao TIMESTAMP DEFAULT NOW()
+);

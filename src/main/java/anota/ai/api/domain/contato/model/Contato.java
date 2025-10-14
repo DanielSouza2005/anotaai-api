@@ -6,7 +6,7 @@ import anota.ai.api.domain.contato.dto.DadosCadastroContatoEmail;
 import anota.ai.api.domain.contato.dto.DadosCadastroContatoTelefone;
 import anota.ai.api.domain.empresa.model.Empresa;
 import anota.ai.api.domain.endereco.model.Endereco;
-import anota.ai.api.domain.status.model.StatusAtivo;
+import anota.ai.api.domain.enums.StatusAtivo;
 import jakarta.persistence.*;
 import lombok.*;
 

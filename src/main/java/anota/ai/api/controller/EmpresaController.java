@@ -4,7 +4,7 @@ import anota.ai.api.domain.contato.repository.ContatoRepository;
 import anota.ai.api.domain.empresa.dto.DadosCadastroEmpresa;
 import anota.ai.api.domain.empresa.dto.DadosListagemEmpresa;
 import anota.ai.api.domain.empresa.model.Empresa;
-import anota.ai.api.domain.status.model.StatusAtivo;
+import anota.ai.api.domain.enums.StatusAtivo;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

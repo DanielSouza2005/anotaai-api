@@ -6,7 +6,7 @@ import anota.ai.api.domain.contato.dto.DadosListagemContato;
 import anota.ai.api.domain.contato.model.Contato;
 import anota.ai.api.domain.contato.repository.ContatoRepository;
 import anota.ai.api.domain.foto.service.FotoService;
-import anota.ai.api.domain.status.model.StatusAtivo;
+import anota.ai.api.domain.enums.StatusAtivo;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

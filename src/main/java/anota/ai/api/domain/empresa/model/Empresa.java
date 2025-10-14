@@ -3,7 +3,7 @@ package anota.ai.api.domain.empresa.model;
 import anota.ai.api.domain.empresa.dto.DadosAtualizacaoEmpresa;
 import anota.ai.api.domain.empresa.dto.DadosCadastroEmpresa;
 import anota.ai.api.domain.endereco.model.Endereco;
-import anota.ai.api.domain.status.model.StatusAtivo;
+import anota.ai.api.domain.enums.StatusAtivo;
 import jakarta.persistence.*;
 import lombok.*;
 

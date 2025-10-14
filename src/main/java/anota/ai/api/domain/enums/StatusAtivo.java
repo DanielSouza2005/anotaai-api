@@ -1,4 +1,4 @@
-package anota.ai.api.domain.status.model;
+package anota.ai.api.domain.enums;
 
 public enum StatusAtivo {
     ATIVO(1),

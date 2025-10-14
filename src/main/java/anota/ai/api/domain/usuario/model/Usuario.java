@@ -1,6 +1,6 @@
 package anota.ai.api.domain.usuario.model;
 
-import anota.ai.api.domain.status.model.StatusAtivo;
+import anota.ai.api.domain.enums.StatusAtivo;
 import anota.ai.api.domain.usuario.dto.DadosAtualizacaoUsuario;
 import anota.ai.api.domain.usuario.dto.DadosCadastroUsuario;
 import jakarta.persistence.*;

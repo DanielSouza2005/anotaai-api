@@ -1,7 +1,7 @@
 package anota.ai.api.controller;
 
 import anota.ai.api.domain.foto.service.FotoService;
-import anota.ai.api.domain.status.model.StatusAtivo;
+import anota.ai.api.domain.enums.StatusAtivo;
 import anota.ai.api.domain.usuario.dto.DadosAtualizacaoUsuario;
 import anota.ai.api.domain.usuario.dto.DadosCadastroUsuario;
 import anota.ai.api.domain.usuario.dto.DadosListagemUsuario;
