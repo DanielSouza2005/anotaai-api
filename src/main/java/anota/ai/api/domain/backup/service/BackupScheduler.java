@@ -44,7 +44,6 @@ public class BackupScheduler {
      * Roda a cada minuto, verifica se há backup agendado para executar
      */
     @Scheduled(cron = "0 * * * * *")
-//    @Scheduled(cron = "0 0 3 * * *")
     public void verificarBackups() {
         List<BackupConfig> configs = backupConfigRepo.findAllByAtivo(StatusAtivo.ATIVO.getCodigo());
 

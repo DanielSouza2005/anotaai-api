@@ -112,11 +112,9 @@ public class BackupService {
             Map<String, String> env = pb.environment();
             env.put("PGPASSWORD", dbPassword);
 
-            // Captura saída e erros do processo
             pb.redirectErrorStream(true);
             Process processo = pb.start();
 
-            // Lê saída (stdout e stderr combinados)
             StringBuilder output = new StringBuilder();
             try (var reader = new java.io.BufferedReader(
                     new java.io.InputStreamReader(processo.getInputStream()))) {

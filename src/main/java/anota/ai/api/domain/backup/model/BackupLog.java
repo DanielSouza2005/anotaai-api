@@ -11,12 +11,13 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "cod_backuplog")
+@EqualsAndHashCode(of = "codBackupLog")
 public class BackupLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cod_backuplog;
+    @Column(name = "cod_backuplog")
+    private Long codBackupLog;
 
     @ManyToOne
     @JoinColumn(name = "cod_backupconfig", nullable = false)
