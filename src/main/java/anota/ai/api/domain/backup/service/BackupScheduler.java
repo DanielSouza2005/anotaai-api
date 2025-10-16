@@ -20,7 +20,7 @@ import java.util.concurrent.Executors;
 @Component
 public class BackupScheduler {
 
-    @Value("${backup.retention.days:30}")
+    @Value("${backup.retention.days:5}")
     private int retentionDays;
 
     @Autowired
@@ -78,6 +78,11 @@ public class BackupScheduler {
         } catch (Exception e) {
             log.setSucesso(StatusAtivo.INATIVO.getCodigo());
             log.setMensagem("Erro: " + e.getMessage());
+
+            Calendar retryTime = Calendar.getInstance();
+            retryTime.add(Calendar.MINUTE, 30);
+            config.setDt_proximo_backup(retryTime.getTime());
+            backupConfigRepo.save(config);
         } finally {
             log.setDtFim(new Date());
             backupLogRepo.save(log);
@@ -129,7 +134,7 @@ public class BackupScheduler {
             backupService.excluirBackupAntigo(backup);
 
             log.setSucesso(StatusAtivo.ATIVO.getCodigo());
-            log.setMensagem("Backup gerado com sucesso.");
+            log.setMensagem("Backup limpo com sucesso.");
         } catch (Exception e) {
             log.setSucesso(StatusAtivo.INATIVO.getCodigo());
             log.setMensagem("Erro: " + e.getMessage());
