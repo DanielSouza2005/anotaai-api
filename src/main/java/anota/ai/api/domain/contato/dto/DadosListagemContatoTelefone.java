@@ -4,7 +4,7 @@ import anota.ai.api.domain.contato.model.ContatoTelefone;
 
 public record DadosListagemContatoTelefone(
         Long cod_telefone,
-        String email,
+        String telefone,
         String tipo
 ) {
     public DadosListagemContatoTelefone(ContatoTelefone contatoTelefone) {
