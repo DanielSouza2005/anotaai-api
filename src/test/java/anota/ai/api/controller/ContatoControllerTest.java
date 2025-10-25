@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -86,7 +87,20 @@ class ContatoControllerTest {
     @DisplayName("Deveria devolver 400 ao tentar cadastrar contato com dados inválidos")
     @WithMockUser
     void cadastrarContatoCenarioDadosInvalidos() throws Exception {
-        var response = mvc.perform(post("/contato")).andReturn().getResponse();
+
+        var jsonPartInvalido = new MockMultipartFile(
+                "dados",
+                "",
+                MediaType.APPLICATION_JSON_VALUE,
+                "{}".getBytes()
+        );
+
+        var request = multipart("/contato")
+                .file(jsonPartInvalido)
+                .contentType(MediaType.MULTIPART_FORM_DATA);
+
+        var response = mvc.perform(request).andReturn().getResponse();
+
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
@@ -99,11 +113,18 @@ class ContatoControllerTest {
 
         when(repository.save(any())).thenReturn(contato);
 
-        var response = mvc.perform(
-                post("/contato")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(dadosCadastroContatoJson.write(dados).getJson())
-        ).andReturn().getResponse();
+        var jsonPart = new MockMultipartFile(
+                "dados",
+                "",
+                MediaType.APPLICATION_JSON_VALUE,
+                dadosCadastroContatoJson.write(dados).getJson().getBytes()
+        );
+
+        var request = multipart("/contato")
+                .file(jsonPart)
+                .contentType(MediaType.MULTIPART_FORM_DATA);
+
+        var response = mvc.perform(request).andReturn().getResponse();
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
         assertThat(response.getHeader("Location")).contains("/contato/");
@@ -163,26 +184,38 @@ class ContatoControllerTest {
                 List.of(
                         new DadosCadastroContatoTelefone("19999999999", "Celular"),
                         new DadosCadastroContatoTelefone("19999999999", "Residencial")
-                        ),
+                ),
                 List.of(
                         new DadosCadastroContatoEmail("novoemail@email.com", "Pessoal"),
                         new DadosCadastroContatoEmail("novo@empresa.com", "Corporativo")
-                        ),
+                ),
                 null,
                 "Consultor",
                 "Comercial",
                 "Teste",
-                "");
+                ""
+        );
 
         var contato = criarContato(criarDadosContato());
-
         when(repository.getReferenceById(1L)).thenReturn(contato);
 
-        var response = mvc.perform(
-                put("/contato")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(dadosAtualizacaoContatoJson.write(dados).getJson())
-        ).andReturn().getResponse();
+        var jsonPart = new MockMultipartFile(
+                "dados",
+                "",
+                MediaType.APPLICATION_JSON_VALUE,
+                dadosAtualizacaoContatoJson.write(dados).getJson().getBytes()
+        );
+
+        var request = multipart("/contato")
+                .file(jsonPart)
+                .contentType(MediaType.MULTIPART_FORM_DATA);
+
+        request.with(requestBuilder -> {
+            requestBuilder.setMethod("PUT");
+            return requestBuilder;
+        });
+
+        var response = mvc.perform(request).andReturn().getResponse();
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.getContentAsString()).contains("Novo Nome", "novoemail@email.com", "Novo Nome");
