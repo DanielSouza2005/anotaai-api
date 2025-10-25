@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.Objects;
+
 @Table(name = "contato_email")
 @Entity(name = "ContatoEmail")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "cod_email")
 public class ContatoEmail {
 
     @Id
@@ -23,6 +24,21 @@ public class ContatoEmail {
 
     @NotBlank
     private String email;
-    
+
     private String tipo;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ContatoEmail)) return false;
+        ContatoEmail that = (ContatoEmail) o;
+        return Objects.equals(getEmail(), that.getEmail()) &&
+                Objects.equals(getTipo(), that.getTipo()) &&
+                Objects.equals(getContato(), that.getContato());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEmail(), getTipo(), getContato());
+    }
 }

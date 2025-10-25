@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.Objects;
+
 @Table(name = "contato_telefone")
 @Entity(name = "ContatoTelefone")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "cod_telefone")
 public class ContatoTelefone {
 
     @Id
@@ -23,6 +24,21 @@ public class ContatoTelefone {
 
     @NotBlank
     private String telefone;
-    
+
     private String tipo;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ContatoTelefone)) return false;
+        ContatoTelefone that = (ContatoTelefone) o;
+        return Objects.equals(getTelefone(), that.getTelefone()) &&
+                Objects.equals(getTipo(), that.getTipo()) &&
+                Objects.equals(getContato(), that.getContato());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTelefone(), getTipo(), getContato());
+    }
 }
