@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
 
     @Query(value = """
@@ -37,4 +39,6 @@ public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
                                  Pageable pageable);
 
     Page<Empresa> findAllByAtivo(int ativo, Pageable paginacao);
+
+    List<Empresa> findAllByAtivo(int ativo);
 }

@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface ContatoRepository extends JpaRepository<Contato, Long> {
 
     @Query(value = """
@@ -70,6 +72,9 @@ public interface ContatoRepository extends JpaRepository<Contato, Long> {
 
     @EntityGraph(attributePaths = {"emails", "telefones", "empresa"})
     Page<Contato> findAllByAtivo(int ativo, Pageable paginacao);
+
+    @EntityGraph(attributePaths = {"emails", "telefones", "empresa"})
+    List<Contato> findAllByAtivo(int ativo);
 
     @Modifying
     @Transactional
