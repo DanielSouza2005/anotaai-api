@@ -21,10 +21,6 @@ public class BackupConfig {
     @Column(name = "cod_backupconfig")
     private Long codBackupConfig;
 
-    @ManyToOne
-    @JoinColumn(name = "cod_usuario", nullable = true)
-    private Usuario usuario;
-
     private Integer ativo;
 
     @Enumerated(EnumType.ORDINAL)

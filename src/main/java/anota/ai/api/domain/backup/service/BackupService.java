@@ -63,7 +63,6 @@ public class BackupService {
             Files.deleteIfExists(filePath);
 
             Backup backup = new Backup();
-            backup.setUsuario(config.getUsuario());
             backup.setCaminho_arquivo(publicUrl);
             backup.setFormato(config.getFormato());
             backup.setDtInclusao(new Date());

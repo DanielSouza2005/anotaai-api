@@ -20,10 +20,6 @@ public class Backup {
     @Column(name = "cod_backup")
     private Long codBackup;
 
-    @ManyToOne
-    @JoinColumn(name = "cod_usuario", nullable = true)
-    private Usuario usuario;
-
     private String caminho_arquivo;
 
     @Enumerated(EnumType.ORDINAL)

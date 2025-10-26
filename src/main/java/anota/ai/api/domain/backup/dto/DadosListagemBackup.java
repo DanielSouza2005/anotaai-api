@@ -7,7 +7,6 @@ import java.util.Date;
 
 public record DadosListagemBackup(
         Long cod_backup,
-        Long cod_usuario,
         String caminho_arquivo,
         Formato formato,
         Date dt_inclusao,
@@ -15,9 +14,6 @@ public record DadosListagemBackup(
 ) {
     public DadosListagemBackup(Backup backup) {
         this(backup.getCodBackup(),
-                backup.getUsuario() != null
-                        ? backup.getUsuario().getCod_usuario()
-                        : null,
                 backup.getCaminho_arquivo(),
                 backup.getFormato(),
                 backup.getDtInclusao(),
