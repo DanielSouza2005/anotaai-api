@@ -33,17 +33,17 @@ public class ExportacaoContatoService extends ExportacaoService {
             "País", "Estado(UF)", "Cidade", "Bairro", "Rua", "Número", "Complemento", "Cep"
     };
 
+    private final String pastaLocal = "uploads/exportacao";
     private final String pastaSupabase = "exportacao/contatos";
 
     @Override
     protected String gerarArquivo(ExportacaoLog exportacao) throws Exception {
         List<Contato> contatos = contatoRepository.findAllByAtivo(StatusAtivo.ATIVO.getCodigo());
 
-        String pasta = "uploads/exportacao";
-        Files.createDirectories(new File(pasta).toPath());
+        Files.createDirectories(new File(pastaLocal).toPath());
 
         String nomeArquivo = "contatos_" + exportacao.getCodExportacaoLog() + ".xlsx";
-        String caminhoCompleto = pasta + "/" + nomeArquivo;
+        String caminhoCompleto = pastaLocal + "/" + nomeArquivo;
 
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Contatos");
@@ -111,6 +111,40 @@ public class ExportacaoContatoService extends ExportacaoService {
         return urlPublica;
     }
 
+    @Override
+    protected String gerarArquivoCabecalho(ExportacaoLog exportacao) throws Exception {
+        Files.createDirectories(new File(pastaLocal).toPath());
+
+        String nomeArquivo = "contatos_cabecalho_" + exportacao.getCodExportacaoLog() + ".xlsx";
+        String caminhoCompleto = pastaLocal + "/" + nomeArquivo;
+
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Contatos");
+
+            Row headerRow = sheet.createRow(0);
+            for (int i = 0; i < cabecalhos.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(cabecalhos[i]);
+                cell.setCellStyle(criarEstiloCabecalho(workbook));
+            }
+
+            for (int i = 0; i < cabecalhos.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            try (FileOutputStream fileOut = new FileOutputStream(caminhoCompleto)) {
+                workbook.write(fileOut);
+            }
+        }
+
+        File arquivoLocal = new File(caminhoCompleto);
+        String urlPublica = supabaseStorageService.uploadFile(arquivoLocal, pastaSupabase);
+
+        arquivoLocal.delete();
+
+        return urlPublica;
+    }
+
     private CellStyle criarEstiloCabecalho(Workbook workbook) {
         CellStyle style = workbook.createCellStyle();
         Font font = workbook.createFont();
@@ -121,5 +155,9 @@ public class ExportacaoContatoService extends ExportacaoService {
 
     public ExportacaoLog iniciarExportacao() throws InterruptedException {
         return super.iniciarExportacao(TipoExportacao.CONTATO);
+    }
+
+    public ExportacaoLog iniciarExportacaoCabecalho() throws Exception {
+        return super.iniciarExportacaoCabecalho(TipoExportacao.CONTATO);
     }
 }

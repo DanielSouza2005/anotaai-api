@@ -1,7 +1,7 @@
-package anota.ai.api.controller;
+package anota.ai.api.controller.backup;
 
-import anota.ai.api.domain.backup.dto.DadosListagemBackupLog;
-import anota.ai.api.domain.backup.repository.BackupLogRepository;
+import anota.ai.api.domain.backup.dto.DadosListagemBackup;
+import anota.ai.api.domain.backup.repository.BackupRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("backupLog")
+@RequestMapping("backup")
 @SecurityRequirement(name = "bearer-key")
-public class BackupLogController {
+public class BackupController {
 
     @Autowired
-    private BackupLogRepository repository;
+    private BackupRepository repository;
 
     @GetMapping
-    public ResponseEntity<Page<DadosListagemBackupLog>> listar(
-            @PageableDefault(size = 10, sort = {"codBackupLog"}, direction = Sort.Direction.DESC) Pageable paginacao
+    public ResponseEntity<Page<DadosListagemBackup>> listar(
+            @PageableDefault(size = 10, sort = {"codBackup"}, direction = Sort.Direction.DESC) Pageable paginacao
     ) {
-        Page<DadosListagemBackupLog> backupLogs = repository.findAll(paginacao).map(DadosListagemBackupLog::new);
-        return ResponseEntity.ok(backupLogs);
+        Page<DadosListagemBackup> backups = repository.findAll(paginacao).map(DadosListagemBackup::new);
+        return ResponseEntity.ok(backups);
     }
 
 }

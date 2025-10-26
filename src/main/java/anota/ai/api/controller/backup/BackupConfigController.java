@@ -1,8 +1,7 @@
-package anota.ai.api.controller;
+package anota.ai.api.controller.backup;
 
 import anota.ai.api.domain.backup.dto.DadosAtualizacaoBackupConfig;
 import anota.ai.api.domain.backup.dto.DadosListagemBackupConfig;
-import anota.ai.api.domain.backup.dto.DadosListagemBackupLog;
 import anota.ai.api.domain.backup.model.BackupConfig;
 import anota.ai.api.domain.backup.repository.BackupConfigRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

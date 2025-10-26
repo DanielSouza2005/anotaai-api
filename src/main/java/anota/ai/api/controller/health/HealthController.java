@@ -1,4 +1,4 @@
-package anota.ai.api.controller;
+package anota.ai.api.controller.health;
 
 import anota.ai.api.domain.health.HealthStatus;
 import org.springframework.http.ResponseEntity;

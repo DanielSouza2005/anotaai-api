@@ -1,4 +1,4 @@
-package anota.ai.api.controller;
+package anota.ai.api.controller.entity;
 
 import anota.ai.api.domain.contato.repository.ContatoRepository;
 import anota.ai.api.domain.empresa.dto.DadosCadastroEmpresa;

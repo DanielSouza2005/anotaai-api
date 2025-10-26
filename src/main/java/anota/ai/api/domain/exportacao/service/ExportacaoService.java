@@ -31,7 +31,19 @@ public abstract class ExportacaoService {
         return exportacao;
     }
 
+    public ExportacaoLog iniciarExportacaoCabecalho(TipoExportacao tipo) throws Exception {
+        ExportacaoLog exportacao = new ExportacaoLog();
+        exportacao.setTipo(tipo);
+        exportacao.setStatus(StatusExportacao.PENDENTE);
+        exportacao.setDtInclusao(new Date());
+        exportacaoRepository.save(exportacao);
+
+        this.processarExportacaoCabecalho(exportacao);
+        return exportacao;
+    }
+
     protected abstract String gerarArquivo(ExportacaoLog exportacao) throws Exception;
+    protected abstract String gerarArquivoCabecalho(ExportacaoLog exportacao) throws Exception;
 
     @Async
     public void processarExportacao(ExportacaoLog exportacao) {
@@ -40,6 +52,24 @@ public abstract class ExportacaoService {
             exportacaoRepository.save(exportacao);
 
             String caminhoArquivo = gerarArquivo(exportacao);
+
+            exportacao.setCaminho_arquivo(caminhoArquivo);
+            exportacao.setStatus(StatusExportacao.CONCLUIDO);
+        } catch (Exception e) {
+            exportacao.setStatus(StatusExportacao.ERRO);
+            exportacao.setMensagem_erro(e.getMessage());
+        } finally {
+            exportacao.setDtTermino(new Date());
+            exportacaoRepository.save(exportacao);
+        }
+    }
+
+    public void processarExportacaoCabecalho(ExportacaoLog exportacao) {
+        try {
+            exportacao.setStatus(StatusExportacao.PROCESSANDO);
+            exportacaoRepository.save(exportacao);
+
+            String caminhoArquivo = gerarArquivoCabecalho(exportacao);
 
             exportacao.setCaminho_arquivo(caminhoArquivo);
             exportacao.setStatus(StatusExportacao.CONCLUIDO);

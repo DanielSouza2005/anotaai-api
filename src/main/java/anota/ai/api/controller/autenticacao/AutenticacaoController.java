@@ -1,4 +1,4 @@
-package anota.ai.api.controller;
+package anota.ai.api.controller.autenticacao;
 
 import anota.ai.api.domain.usuario.dto.DadosAutenticacao;
 import anota.ai.api.domain.usuario.model.Usuario;
