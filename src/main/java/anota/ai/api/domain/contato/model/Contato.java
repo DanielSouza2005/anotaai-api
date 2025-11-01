@@ -32,10 +32,10 @@ public class Contato {
     @JoinColumn(name = "cod_empresa", nullable = true)
     private Empresa empresa;
 
-    @OneToMany(mappedBy = "contato", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "contato", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<ContatoEmail> emails = new HashSet<>();
 
-    @OneToMany(mappedBy = "contato", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "contato", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<ContatoTelefone> telefones = new HashSet<>();
 
     @Embedded

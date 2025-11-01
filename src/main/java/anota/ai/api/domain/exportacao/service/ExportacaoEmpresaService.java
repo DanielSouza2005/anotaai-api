@@ -1,12 +1,9 @@
 package anota.ai.api.domain.exportacao.service;
 
-import anota.ai.api.domain.contato.model.Contato;
-import anota.ai.api.domain.contato.model.ContatoEmail;
-import anota.ai.api.domain.contato.model.ContatoTelefone;
-import anota.ai.api.domain.contato.repository.ContatoRepository;
 import anota.ai.api.domain.empresa.model.Empresa;
 import anota.ai.api.domain.empresa.repository.EmpresaRepository;
 import anota.ai.api.domain.enums.StatusAtivo;
+import anota.ai.api.domain.enums.dados.EmpresaExcelColunas;
 import anota.ai.api.domain.exportacao.enums.TipoExportacao;
 import anota.ai.api.domain.exportacao.model.ExportacaoLog;
 import anota.ai.api.domain.supabase.provider.SupabaseStorageService;
@@ -60,21 +57,21 @@ public class ExportacaoEmpresaService extends ExportacaoService {
             for (Empresa e : empresas) {
                 Row row = sheet.createRow(rowNum++);
 
-                row.createCell(0).setCellValue(e.getCod_empresa());
-                row.createCell(1).setCellValue(e.getRazao());
-                row.createCell(2).setCellValue(e.getFantasia());
-                row.createCell(3).setCellValue(e.getCnpj());
-                row.createCell(4).setCellValue(e.getIe());
+                row.createCell(EmpresaExcelColunas.CODIGO.index()).setCellValue(e.getCod_empresa());
+                row.createCell(EmpresaExcelColunas.RAZAO.index()).setCellValue(e.getRazao());
+                row.createCell(EmpresaExcelColunas.FANTASIA.index()).setCellValue(e.getFantasia());
+                row.createCell(EmpresaExcelColunas.CNPJ.index()).setCellValue(e.getCnpj());
+                row.createCell(EmpresaExcelColunas.IE.index()).setCellValue(e.getIe());
 
                 if (e.getEndereco() != null) {
-                    row.createCell(5).setCellValue(e.getEndereco().getPais());
-                    row.createCell(6).setCellValue(e.getEndereco().getUf());
-                    row.createCell(7).setCellValue(e.getEndereco().getCidade());
-                    row.createCell(8).setCellValue(e.getEndereco().getBairro());
-                    row.createCell(9).setCellValue(e.getEndereco().getRua());
-                    row.createCell(10).setCellValue(e.getEndereco().getNumero());
-                    row.createCell(11).setCellValue(e.getEndereco().getComplemento());
-                    row.createCell(12).setCellValue(e.getEndereco().getCep());
+                    row.createCell(EmpresaExcelColunas.PAIS.index()).setCellValue(e.getEndereco().getPais());
+                    row.createCell(EmpresaExcelColunas.ESTADO.index()).setCellValue(e.getEndereco().getUf());
+                    row.createCell(EmpresaExcelColunas.CIDADE.index()).setCellValue(e.getEndereco().getCidade());
+                    row.createCell(EmpresaExcelColunas.BAIRRO.index()).setCellValue(e.getEndereco().getBairro());
+                    row.createCell(EmpresaExcelColunas.RUA.index()).setCellValue(e.getEndereco().getRua());
+                    row.createCell(EmpresaExcelColunas.NUMERO.index()).setCellValue(e.getEndereco().getNumero());
+                    row.createCell(EmpresaExcelColunas.COMPLEMENTO.index()).setCellValue(e.getEndereco().getComplemento());
+                    row.createCell(EmpresaExcelColunas.CEP.index()).setCellValue(e.getEndereco().getCep());
                 }
             }
 

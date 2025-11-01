@@ -5,7 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-import java.util.List;
+import java.util.Set;
 
 public record DadosCadastroContato(
         @NotBlank(message = "O nome não pode estar em branco.")
@@ -17,10 +17,10 @@ public record DadosCadastroContato(
         String cpf,
 
         @Valid
-        List<DadosCadastroContatoTelefone> telefones,
+        Set<DadosCadastroContatoTelefone> telefones,
 
         @Valid
-        List<DadosCadastroContatoEmail> emails,
+        Set<DadosCadastroContatoEmail> emails,
 
         @Valid
         DadosCadastroEndereco endereco,

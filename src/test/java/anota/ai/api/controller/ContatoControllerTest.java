@@ -21,6 +21,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -53,12 +54,12 @@ class ContatoControllerTest {
                 "João Silva",
                 1L,
                 "12345678901",
-                List.of(
+                Set.of(
                         new DadosCadastroContatoTelefone("11999999999", "Celular"),
                         new DadosCadastroContatoTelefone("1133334444", "Residencial"),
                         new DadosCadastroContatoTelefone("1133335555", "Comercial")
                 ),
-                List.of(
+                Set.of(
                         new DadosCadastroContatoEmail("joao@email.com", "Pessoal"),
                         new DadosCadastroContatoEmail("joao@empresa.com", "Corporativo")
                 ),
@@ -181,11 +182,11 @@ class ContatoControllerTest {
                 "Novo Nome",
                 2L,
                 "1133344455",
-                List.of(
+                Set.of(
                         new DadosCadastroContatoTelefone("19999999999", "Celular"),
                         new DadosCadastroContatoTelefone("19999999999", "Residencial")
                 ),
-                List.of(
+                Set.of(
                         new DadosCadastroContatoEmail("novoemail@email.com", "Pessoal"),
                         new DadosCadastroContatoEmail("novo@empresa.com", "Corporativo")
                 ),
