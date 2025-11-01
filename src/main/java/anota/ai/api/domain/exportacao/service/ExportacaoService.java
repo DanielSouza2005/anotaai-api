@@ -45,7 +45,6 @@ public abstract class ExportacaoService {
     protected abstract String gerarArquivo(ExportacaoLog exportacao) throws Exception;
     protected abstract String gerarArquivoCabecalho(ExportacaoLog exportacao) throws Exception;
 
-    @Async
     public void processarExportacao(ExportacaoLog exportacao) {
         try {
             exportacao.setStatus(StatusExportacao.PROCESSANDO);
