@@ -11,7 +11,6 @@ import anota.ai.api.domain.enums.dados.ContatoExcelColunas;
 import anota.ai.api.domain.importacao.enums.TipoImportacao;
 import anota.ai.api.domain.importacao.model.ImportacaoLog;
 import jakarta.transaction.Transactional;
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ public class ImportacaoContatoService {
     final DataFormatter formatter = new DataFormatter();
 
     public void importar(MultipartFile arquivoExcel) {
-        int totalLinhas = contarLinhasExcel(arquivoExcel);
+        int totalLinhas = importacaoService.contarLinhasExcel(arquivoExcel);
 
         if (totalLinhas <= 0) {
             throw new RuntimeException("O arquivo Excel não contém registros para importar.");
@@ -73,14 +72,14 @@ public class ImportacaoContatoService {
 
     @Transactional
     private void processarLinha(Row row, ImportacaoLog log) {
-        Long codigo = getLongCellValue(row, ContatoExcelColunas.CODIGO.index(), formatter, 0L);
-        String nome = getStringCellValue(row, ContatoExcelColunas.NOME.index(), formatter);
-        String cpf = getStringCellValue(row, ContatoExcelColunas.CPF.index(), formatter);
-        String cargo = getStringCellValue(row, ContatoExcelColunas.CARGO.index(), formatter);
-        String departamento = getStringCellValue(row, ContatoExcelColunas.DEPARTAMENTO.index(), formatter);
-        String obs = getStringCellValue(row, ContatoExcelColunas.OBSERVACAO.index(), formatter);
+        Long codigo = importacaoService.getLongCellValue(row, ContatoExcelColunas.CODIGO.index(), formatter, 0L);
+        String nome = importacaoService.getStringCellValue(row, ContatoExcelColunas.NOME.index(), formatter);
+        String cpf = importacaoService.getStringCellValue(row, ContatoExcelColunas.CPF.index(), formatter);
+        String cargo = importacaoService.getStringCellValue(row, ContatoExcelColunas.CARGO.index(), formatter);
+        String departamento = importacaoService.getStringCellValue(row, ContatoExcelColunas.DEPARTAMENTO.index(), formatter);
+        String obs = importacaoService.getStringCellValue(row, ContatoExcelColunas.OBSERVACAO.index(), formatter);
 
-        String telefonesStr = getStringCellValue(row, ContatoExcelColunas.EMAILS.index(), formatter);
+        String telefonesStr = importacaoService.getStringCellValue(row, ContatoExcelColunas.TELEFONES.index(), formatter);
         Set<DadosCadastroContatoTelefone> listaTelefones = new HashSet<>();
         if (!telefonesStr.isBlank()) {
             for (String t : telefonesStr.split(";")) {
@@ -91,7 +90,7 @@ public class ImportacaoContatoService {
             }
         }
 
-        String emailsStr = getStringCellValue(row, ContatoExcelColunas.TELEFONES.index(), formatter);
+        String emailsStr = importacaoService.getStringCellValue(row, ContatoExcelColunas.EMAILS.index(), formatter);
         Set<DadosCadastroContatoEmail> listaEmails = new HashSet<>();
         if (!emailsStr.isBlank()) {
             for (String e : emailsStr.split(";")) {
@@ -102,17 +101,17 @@ public class ImportacaoContatoService {
             }
         }
 
-        Long empresa = getLongCellValue(row, ContatoExcelColunas.EMPRESA.index(), formatter, null);
+        Long empresa = importacaoService.getLongCellValue(row, ContatoExcelColunas.EMPRESA.index(), formatter, null);
 
         DadosCadastroEndereco dadosEndereco = new DadosCadastroEndereco(
-                getStringCellValue(row, ContatoExcelColunas.PAIS.index(), formatter),
-                getStringCellValue(row, ContatoExcelColunas.ESTADO.index(), formatter),
-                getStringCellValue(row, ContatoExcelColunas.CIDADE.index(), formatter),
-                getStringCellValue(row, ContatoExcelColunas.BAIRRO.index(), formatter),
-                getStringCellValue(row, ContatoExcelColunas.RUA.index(), formatter),
-                getStringCellValue(row, ContatoExcelColunas.NUMERO.index(), formatter),
-                getStringCellValue(row, ContatoExcelColunas.COMPLEMENTO.index(), formatter),
-                getStringCellValue(row, ContatoExcelColunas.CEP.index(), formatter)
+                importacaoService.getStringCellValue(row, ContatoExcelColunas.PAIS.index(), formatter),
+                importacaoService.getStringCellValue(row, ContatoExcelColunas.ESTADO.index(), formatter),
+                importacaoService.getStringCellValue(row, ContatoExcelColunas.CIDADE.index(), formatter),
+                importacaoService.getStringCellValue(row, ContatoExcelColunas.BAIRRO.index(), formatter),
+                importacaoService.getStringCellValue(row, ContatoExcelColunas.RUA.index(), formatter),
+                importacaoService.getStringCellValue(row, ContatoExcelColunas.NUMERO.index(), formatter),
+                importacaoService.getStringCellValue(row, ContatoExcelColunas.COMPLEMENTO.index(), formatter),
+                importacaoService.getStringCellValue(row, ContatoExcelColunas.CEP.index(), formatter)
         );
 
         Contato contato;
@@ -122,7 +121,7 @@ public class ImportacaoContatoService {
                     dadosEndereco, cargo, departamento, obs, null
             );
 
-            validarDTO(dadosAtualizacao);
+            importacaoService.validarDTO(dadosAtualizacao, validator);
 
             contato = contatoRepository.findById(codigo).orElseThrow();
             contato.atualizarDados(dadosAtualizacao);
@@ -132,7 +131,7 @@ public class ImportacaoContatoService {
                     dadosEndereco, cargo, departamento, obs, null
             );
 
-            validarDTO(dadosCadastro);
+            importacaoService.validarDTO(dadosCadastro, validator);
 
             contato = new Contato(dadosCadastro);
         }
@@ -142,44 +141,6 @@ public class ImportacaoContatoService {
 
         contatoRepository.save(contato);
         log.incrementarSucesso();
-    }
-
-    private String getStringCellValue(Row row, int colIndex, DataFormatter formatter) {
-        if (row == null) return "";
-        Cell cell = row.getCell(colIndex, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
-        if (cell == null) return "";
-        return formatter.formatCellValue(cell).trim();
-    }
-
-    private Long getLongCellValue(Row row, int colIndex, DataFormatter formatter, Long defaultValue) {
-        String s = getStringCellValue(row, colIndex, formatter);
-        if (s == null || s.isBlank()) return defaultValue;
-        s = s.replaceAll("\\.0+$", "");
-        s = s.replaceAll("[\\s\\,\\.]", "");
-        try {
-            return Long.parseLong(s);
-        } catch (NumberFormatException ex) {
-            return defaultValue;
-        }
-    }
-
-    private int contarLinhasExcel(MultipartFile arquivoExcel) {
-        try (Workbook workbook = WorkbookFactory.create(arquivoExcel.getInputStream())) {
-            return workbook.getSheetAt(0).getPhysicalNumberOfRows() - 1;
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
-    private void validarDTO(Object dto) {
-        Set<ConstraintViolation<Object>> violacoes = validator.validate(dto);
-        if (!violacoes.isEmpty()) {
-            StringBuilder sb = new StringBuilder();
-            for (ConstraintViolation<Object> v : violacoes) {
-                sb.append(v.getPropertyPath()).append(": ").append(v.getMessage()).append("; ");
-            }
-            throw new IllegalArgumentException(sb.toString());
-        }
     }
 
 }

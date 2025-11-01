@@ -6,14 +6,14 @@ public enum EmpresaExcelColunas {
     FANTASIA(2),
     CNPJ(3),
     IE(4),
-    PAIS(9),
-    ESTADO(10),
-    CIDADE(11),
-    BAIRRO(12),
-    RUA(13),
-    NUMERO(14),
-    COMPLEMENTO(15),
-    CEP(16);
+    PAIS(5),
+    ESTADO(6),
+    CIDADE(7),
+    BAIRRO(8),
+    RUA(9),
+    NUMERO(10),
+    COMPLEMENTO(11),
+    CEP(12);
 
     private final int index;
 
