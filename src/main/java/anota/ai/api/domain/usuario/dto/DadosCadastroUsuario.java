@@ -1,5 +1,6 @@
 package anota.ai.api.domain.usuario.dto;
 
+import anota.ai.api.domain.usuario.enums.Admin;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -15,6 +16,8 @@ public record DadosCadastroUsuario(
         @Email(message = "O e-mail deve ser um endereço válido.")
         String email,
 
-        String foto
+        String foto,
+
+        int admin
 ) {
 }

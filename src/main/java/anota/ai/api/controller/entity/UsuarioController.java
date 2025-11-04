@@ -20,6 +20,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,6 +50,7 @@ public class UsuarioController {
     private TokenService tokenService;
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Page<DadosListagemUsuario>> listarFiltrado(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) String email,
@@ -70,6 +72,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios.map(DadosListagemUsuario::new));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{cod_usuario}")
     public ResponseEntity<DadosListagemUsuario> listarPorId(@PathVariable Long cod_usuario) {
         var usuario = repository.getReferenceById(cod_usuario);
@@ -79,6 +82,7 @@ public class UsuarioController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<DadosListagemUsuario> cadastrar(@RequestPart("dados") @Valid DadosCadastroUsuario dados,
                                                           @RequestPart(value = "foto", required = false) MultipartFile foto,
                                                           UriComponentsBuilder uriBuilder) throws IOException {
@@ -93,6 +97,7 @@ public class UsuarioController {
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> atualizar(@RequestPart("dados") @Valid DadosAtualizacaoUsuario dados,
                                        @RequestPart(value = "foto", required = false) MultipartFile foto) throws IOException {
         var usuario = repository.getReferenceById(dados.cod_usuario());
@@ -104,6 +109,7 @@ public class UsuarioController {
 
     @DeleteMapping("/{cod_usuario}")
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> excluir(@PathVariable Long cod_usuario,
                                      HttpServletRequest request) {
         var usuario = repository.getReferenceById(cod_usuario);

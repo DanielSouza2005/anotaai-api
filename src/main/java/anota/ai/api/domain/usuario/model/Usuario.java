@@ -3,6 +3,7 @@ package anota.ai.api.domain.usuario.model;
 import anota.ai.api.domain.enums.StatusAtivo;
 import anota.ai.api.domain.usuario.dto.DadosAtualizacaoUsuario;
 import anota.ai.api.domain.usuario.dto.DadosCadastroUsuario;
+import anota.ai.api.domain.usuario.enums.Admin;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,6 +37,8 @@ public class Usuario implements UserDetails {
     private Date dt_alteracao;
     private String foto;
 
+    private int admin;
+
     public Usuario(DadosCadastroUsuario dados, BCryptPasswordEncoder encoder) {
         this.nome = dados.nome();
         this.senha = encoder.encode(dados.senha());
@@ -45,6 +48,7 @@ public class Usuario implements UserDetails {
         this.ativo = StatusAtivo.ATIVO.getCodigo();
         this.dt_inclusao = new Date();
         this.dt_alteracao = new Date();
+        this.admin = dados.admin();
     }
 
     public void atualizarDados(DadosAtualizacaoUsuario dados, BCryptPasswordEncoder encoder) {
@@ -65,6 +69,8 @@ public class Usuario implements UserDetails {
         if (dados.foto() != null) {
             this.foto = dados.foto();
         }
+
+        this.admin = dados.admin();
     }
 
     public void excluir() {
@@ -73,6 +79,10 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.admin == Admin.VERDADEIRO.getCodigo()) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
+
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
