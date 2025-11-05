@@ -72,7 +72,6 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios.map(DadosListagemUsuario::new));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{cod_usuario}")
     public ResponseEntity<DadosListagemUsuario> listarPorId(@PathVariable Long cod_usuario) {
         var usuario = repository.getReferenceById(cod_usuario);
