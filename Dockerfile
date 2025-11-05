@@ -15,7 +15,7 @@ RUN mvn clean install -DskipTests -B
 # ============================
 # 🚀 Etapa final (execução)
 # ============================
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jdk-jammy
 
 # Instala dependências necessárias para o Apache POI (fontes) e PostgreSQL client
 RUN apt-get update && apt-get install -y \
